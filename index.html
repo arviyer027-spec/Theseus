@@ -441,10 +441,71 @@ function getProactiveSuggestion(){
     pool.push({text:"It is the weekend! Want me to plan something fun \u2014 restaurants, movies, outings, or a day trip?",btn:"\uD83C\uDF89 Weekend Plans",prompt:"Help me plan a fun weekend. Suggest interesting things to do in Pune this weekend \u2014 restaurants, events, movies, outdoor activities, or day trips."});
   }
 
-  // ── LEARNED BEHAVIOR SUGGESTIONS ──
-  if(tops.length>0){
-    const t=tops[Math.floor(Math.random()*Math.min(3,tops.length))];
-    pool.push({text:"You have been tracking \""+t+"\" \u2014 want me to find the very latest updates on this?",btn:"\uD83D\uDD0D Latest on "+t,prompt:"Search for and give me the latest news, developments, and updates on: "+t});
+  // ── INTELLIGENT LEARNED BEHAVIOR ENGINE ──
+  // Analyze actual history to generate personalized suggestions
+  const STOPWORDS=new Set(['this','that','what','with','from','about','have','been','want','need','help','make','give','some','find','search','latest','please','should','could','would','their','there','them','they','will','just','also','very','much','more','like','than','into','your','just','know','take','come','good','look','does','most','only','tell','well','back']);
+
+  // Get meaningful topics (filtered)
+  const meaningfulTopics=Object.entries(profile.topics||{})
+    .filter(([w])=>!STOPWORDS.has(w)&&w.length>3)
+    .sort((a,b)=>b[1]-a[1]).slice(0,8);
+
+  // Detect user interest categories from history
+  const categories={food:0,market:0,code:0,research:0,creative:0,news:0,personal:0};
+  const catKeywords={
+    food:['food','chai','coffee','lunch','dinner','swiggy','zomato','order','eat','restaurant','snack','breakfast'],
+    market:['market','nifty','banknifty','sensex','stock','trading','price','crypto','invest'],
+    code:['code','build','script','app','python','react','html','css','function','api','debug','program'],
+    research:['research','deep','dive','analysis','compare','study','report','investigate'],
+    creative:['write','story','creative','design','content','blog','article','email','draft','movie','film'],
+    news:['news','briefing','today','headline','update','world','india','politics','tech'],
+    personal:['plan','schedule','workout','sleep','morning','routine','reminder','goal']
+  };
+
+  history.slice(-30).forEach(h=>{
+    const words=h.task.toLowerCase();
+    Object.entries(catKeywords).forEach(([cat,kws])=>{
+      if(kws.some(kw=>words.includes(kw)))categories[cat]+=2;
+    });
+  });
+
+  // Sort categories by usage
+  const topCats=Object.entries(categories).filter(([,v])=>v>0).sort((a,b)=>b[1]-a[1]);
+
+  // Generate learned suggestions based on detected patterns
+  if(topCats.length>0){
+    const topCat=topCats[0][0];
+    const learned={
+      food:{text:"I noticed you enjoy food orders. Hungry? Let me find the best options delivering to you right now.",btn:"\uD83C\uDF5B Order Food",prompt:"What are the best rated restaurants delivering right now in Pune on Swiggy? Give me top 5 with cuisine, rating, delivery time, and a recommended dish from each."},
+      market:{text:"You check markets regularly. Want your latest market snapshot with key levels and sentiment?",btn:"\uD83D\uDCC8 Market Update",prompt:"Give me a comprehensive market update: Nifty 50, BankNifty, Sensex levels, key support/resistance, FII/DII data, and top 5 movers with reasons."},
+      code:{text:"You have been building things. Ready to continue coding, or need me to architect something new?",btn:"\uD83D\uDCBB Code Session",prompt:"I want to build something. Help me: ",pf:true},
+      research:{text:"You love deep dives. Want me to research something fascinating right now?",btn:"\uD83E\uDDE0 Research",prompt:"Do a deep research dive on: ",pf:true},
+      creative:{text:"Creative mode unlocked. Need help writing, drafting, or brainstorming something?",btn:"\u270D\uFE0F Create",prompt:"Help me write: ",pf:true},
+      news:{text:"You stay informed. Want a fresh briefing on what is happening right now?",btn:"\uD83D\uDCF0 Fresh News",prompt:"Give me the latest breaking news and important updates worldwide and in India right now, including tech and business."},
+      personal:{text:"Time for a productivity check. Want to plan, organize, or set goals?",btn:"\uD83C\uDFAF Plan",prompt:"Help me plan and organize. Ask me what I need to accomplish and create an actionable plan."}
+    };
+    if(learned[topCat])pool.push(learned[topCat]);
+
+    // Add second most used category too
+    if(topCats.length>1){
+      const secondCat=topCats[1][0];
+      if(learned[secondCat])pool.push(learned[secondCat]);
+    }
+  }
+
+  // Add topic-specific suggestions for meaningful topics
+  meaningfulTopics.slice(0,3).forEach(([topic,count])=>{
+    if(count>=2){
+      pool.push({text:"You have asked about \""+topic+"\" "+count+" times. Want the latest on this?",btn:"\uD83D\uDD0D "+topic,prompt:"Give me the very latest news, developments, analysis, and updates on: "+topic});
+    }
+  });
+
+  // Re-suggest previously successful tasks that user might want to repeat
+  const recentSuccess=history.filter(h=>h.ok).slice(-10);
+  if(recentSuccess.length>3){
+    const rand=recentSuccess[Math.floor(Math.random()*recentSuccess.length)];
+    const taskPreview=rand.task.length>50?rand.task.substring(0,50)+'...':rand.task;
+    pool.push({text:"You ran \""+taskPreview+"\" before and it worked well. Want to run it again or a variation?",btn:"\u21BB Repeat",prompt:rand.task});
   }
 
   // Track which hours user is most active
@@ -453,7 +514,11 @@ function getProactiveSuggestion(){
   profile.hours[hKey]=(profile.hours[hKey]||0)+1;
   LS.set('profile',profile);
 
-  // Pick a random suggestion from the pool
+  // SMART PICKING: weight learned suggestions higher (appear 2x in pool)
+  const learnedPool=pool.filter(p=>p.btn&&(p.btn.includes('Latest')||p.btn.includes('Repeat')||Object.values(categories).some(v=>v>0)));
+  pool.push(...learnedPool); // Double weight for learned items
+
+  // Pick
   const pick=pool[Math.floor(Math.random()*pool.length)];
   currentSuggestion=pick;
   return {tc,suggestion:pick,poolSize:pool.length};
@@ -999,8 +1064,24 @@ async function execTask(t){
       let text=(data.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('\n');
       // Strip cite tags from raw text before JSON parsing
       text=text.replace(/<\/?cite[^>]*>/gi,'');
-      let parsed;try{parsed=JSON.parse(text.replace(/```json|```/g,'').trim())}catch{parsed={thinking:'Direct response',plan:['Executed'],response:text||'Done.',actions:[],status:'complete',category:'general'}}
-      // Clean cite tags and literal \n from all text fields
+      let parsed;
+      try{
+        parsed=JSON.parse(text.replace(/```json|```/g,'').trim());
+      }catch{
+        // Smart fallback: try to extract response field via regex
+        const respMatch=text.match(/"response"\s*:\s*"([\s\S]*?)(?:"\s*,\s*"actions|"\s*,\s*"status|"\s*})/);
+        if(respMatch){
+          const extracted=respMatch[1].replace(/\\n/g,'\n').replace(/\\"/g,'"').replace(/\\\\/g,'\\');
+          parsed={thinking:'Extracted from partial response',plan:['Executed'],response:extracted,actions:[],status:'complete',category:'general'};
+        } else {
+          // Last resort: show raw text but strip JSON fragments
+          let clean=text.replace(/```json|```/g,'').trim();
+          // Remove JSON wrapper if partially visible
+          clean=clean.replace(/^\s*\{[\s\S]*?"response"\s*:\s*"/,'').replace(/"\s*,\s*"actions"[\s\S]*$/,'').replace(/"\s*,\s*"status"[\s\S]*$/,'').replace(/\\"/g,'"').replace(/\\n/g,'\n');
+          parsed={thinking:'Direct response',plan:['Executed'],response:clean||text||'Done.',actions:[],status:'complete',category:'general'};
+        }
+      }
+      // Clean all text fields
       if(parsed.response)parsed.response=cleanAPI(parsed.response);
       if(parsed.thinking)parsed.thinking=cleanAPI(parsed.thinking);
       if(parsed.plan)parsed.plan=parsed.plan.map(s=>cleanAPI(s));
@@ -1059,7 +1140,19 @@ function renderMD(text){
 }
 function inl(t){t=escH(t);t=t.replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>');t=t.replace(/`(.+?)`/g,'<code>$1</code>');t=t.replace(/\[(.+?)\]\((https?:\/\/.+?)\)/g,'<a href="$2" target="_blank">$1</a>');return t}
 function escH(s){return s?s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'):''}
-function cleanAPI(s){return s?s.replace(/<\/?cite[^>]*>/gi,'').replace(/\\n/g,'\n').replace(/\n{3,}/g,'\n\n'):''}
+function cleanAPI(s){
+  if(!s)return'';
+  s=s.replace(/<\/?cite[^>]*>/gi,'');         // Strip cite tags
+  s=s.replace(/<\/?antml:[^>]*>/gi,'');        // Strip antml tags
+  s=s.replace(/\\"/g,'"');                      // Fix escaped quotes
+  s=s.replace(/\\n/g,'\n');                     // Fix literal \n
+  s=s.replace(/\n{3,}/g,'\n\n');               // Collapse excess newlines
+  // Strip trailing JSON fragments that leaked into response text
+  s=s.replace(/"\s*,\s*"actions"\s*:\s*\[[\s\S]*$/,'');
+  s=s.replace(/"\s*,\s*"status"\s*:\s*"[\s\S]*$/,'');
+  s=s.replace(/"\s*,\s*"category"\s*:\s*"[\s\S]*$/,'');
+  return s.trim();
+}
 function slp(ms){return new Promise(r=>setTimeout(r,ms))}
 </script>
 </body>
