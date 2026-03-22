@@ -233,6 +233,32 @@ textarea{font-family:inherit;font-size:inherit}textarea:focus{outline:none}
 .sbtn.off{opacity:.2;pointer-events:none}
 .sbtn svg{width:19px;height:19px}
 .ifoot{display:flex;justify-content:center;gap:6px;margin-top:7px;font-size:9px;color:rgba(0,229,255,.18);font-family:var(--mono);letter-spacing:.5px}
+
+/* HISTORY PANEL */
+.hov{position:fixed;inset:0;background:rgba(8,11,18,.92);z-index:50;display:none;align-items:flex-end;justify-content:center}
+.hov.show{display:flex}
+.hpnl{width:100%;max-width:480px;max-height:88vh;background:var(--bg2);border-radius:20px 20px 0 0;border:1px solid rgba(0,229,255,.1);border-bottom:none;padding:20px 16px 32px;overflow-y:auto;animation:slideUp .35s ease}
+.hpnl .hh{width:36px;height:4px;border-radius:2px;background:var(--t4);margin:0 auto 16px}
+.hpnl h2{font-size:20px;font-weight:700;color:var(--t1);margin-bottom:4px}
+.hpnl .hsub{font-size:12px;color:var(--t3);font-family:var(--mono);margin-bottom:14px}
+.htabs{display:flex;gap:6px;margin-bottom:14px}
+.htab{padding:8px 16px;border-radius:9px;font-size:13px;font-weight:600;font-family:var(--mono);background:var(--bg);border:1px solid rgba(255,255,255,.05);color:var(--t3);transition:all .2s}
+.htab.on{background:var(--cyan10);border-color:rgba(0,229,255,.2);color:var(--cyan)}
+.hlist{display:flex;flex-direction:column;gap:8px}
+.hitem{padding:14px;border-radius:12px;background:var(--bg);border:1px solid rgba(255,255,255,.04);transition:all .2s}
+.hitem:active{border-color:rgba(0,229,255,.15)}
+.hi-top{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+.hi-time{font-size:10px;color:var(--t4);font-family:var(--mono)}
+.hi-st{font-size:9px;padding:2px 7px;border-radius:4px;font-family:var(--mono);font-weight:500}
+.hi-ok{background:rgba(0,230,118,.1);color:var(--green)}
+.hi-fl{background:rgba(255,82,82,.1);color:var(--red)}
+.hi-task{font-size:14px;color:var(--t1);font-weight:500;line-height:1.4;margin-bottom:4px}
+.hi-res{font-size:12px;color:var(--t3);line-height:1.4;max-height:48px;overflow:hidden}
+.hi-re{padding:6px 12px;border-radius:8px;background:var(--cyan06);border:1px solid rgba(0,229,255,.12);color:var(--cyan);font-size:12px;font-family:var(--mono);font-weight:500;margin-top:8px;display:inline-block}
+.hemp{text-align:center;padding:40px 20px;color:var(--t4);font-size:14px}
+.hcls{width:100%;padding:14px;border-radius:12px;background:var(--cyan10);color:var(--cyan);font-size:15px;font-weight:700;margin-top:12px;border:1px solid rgba(0,229,255,.15)}
+.sc{cursor:pointer;transition:all .2s}
+.sc:active{border-color:rgba(0,229,255,.2);background:var(--bg3)}
 </style>
 </head>
 <body>
@@ -280,6 +306,22 @@ textarea{font-family:inherit;font-size:inherit}textarea:focus{outline:none}
 <!-- Toast container -->
 <div id="toastZone"></div>
 
+<!-- History Panel -->
+<div id="histOv" class="hov" onclick="if(event.target===this)togHist()">
+  <div class="hpnl">
+    <div class="hh"></div>
+    <h2>Task History</h2>
+    <div class="hsub">Your conversations and completed tasks</div>
+    <div class="htabs">
+      <button class="htab on" onclick="showHistTab('all',this)">All</button>
+      <button class="htab" onclick="showHistTab('ok',this)">Completed</button>
+      <button class="htab" onclick="showHistTab('fail',this)">Retried</button>
+    </div>
+    <div class="hlist" id="hlistBody"></div>
+    <button class="hcls" onclick="togHist()">Close</button>
+  </div>
+</div>
+
 <div id="app">
   <div class="hdr">
     <div class="hdr-left">
@@ -305,7 +347,7 @@ textarea{font-family:inherit;font-size:inherit}textarea:focus{outline:none}
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2L15 22L11 13L2 9L22 2Z"/></svg>
       </button>
     </div>
-    <div class="ifoot"><span>THESEUS v2.1</span><span>&bull;</span><span>Proactive &bull; Autonomous &bull; Never Fails</span></div>
+    <div class="ifoot"><span>THESEUS v2.2</span><span>&bull;</span><span>Proactive &bull; Autonomous &bull; Never Fails</span></div>
   </div>
 </div>
 
@@ -444,7 +486,7 @@ function getProactiveSuggestion(){
 // ═══════════════════════════════════════════════════════════════
 // BOOT
 // ═══════════════════════════════════════════════════════════════
-const BL=['THESEUS AGENT OS v2.1','Neural pathways: INITIALIZED','Persistent memory: LOADED','Proactive intelligence: ARMED','Behavior learning: ACTIVE','Web search: ONLINE','Retry cascade: 3-LAYER FALLBACK','Context engine: TIME+BEHAVIOR AWARE','App integration: READY','\u2501\u2501\u2501 THESEUS IS ALIVE \u2501\u2501\u2501'];
+const BL=['THESEUS AGENT OS v2.2','Neural pathways: INITIALIZED','Persistent memory: LOADED','Proactive intelligence: ARMED','Behavior learning: ACTIVE','Web search: ONLINE','Retry cascade: 3-LAYER FALLBACK','Context engine: TIME+BEHAVIOR AWARE','Background notifications: ARMED','\u2501\u2501\u2501 THESEUS IS ALIVE \u2501\u2501\u2501'];
 let bi=0;
 function bT(){
   if(bi<BL.length){const e=document.createElement('div');e.className='b-line'+(bi===BL.length-1?' hl':'');e.textContent=BL[bi];document.getElementById('bTerm').appendChild(e);bi++;setTimeout(bT,150)}
@@ -508,9 +550,19 @@ function doCheckin(){
   const logo=document.querySelector('.hdr-logo');
   if(logo){logo.style.animation='none';logo.offsetHeight;logo.style.animation='heartbeat .6s ease 4'}
 
-  // 4. Browser notification (works even when tab is background)
+  // 4. Browser notification — use SW registration for persistence
   if('Notification' in window&&Notification.permission==='granted'){
-    try{new Notification('THESEUS Agent',{body:suggestion.text,tag:'theseus-checkin',renotify:true})}catch{}
+    try{
+      if(navigator.serviceWorker&&navigator.serviceWorker.ready){
+        navigator.serviceWorker.ready.then(reg=>{
+          reg.showNotification('THESEUS Agent',{body:suggestion.text,tag:'theseus-checkin',renotify:true,vibrate:[100,50,100],requireInteraction:true});
+        }).catch(()=>{
+          new Notification('THESEUS Agent',{body:suggestion.text,tag:'theseus-checkin',renotify:true});
+        });
+      } else {
+        new Notification('THESEUS Agent',{body:suggestion.text,tag:'theseus-checkin',renotify:true});
+      }
+    }catch{}
   }
 
   // 5. Vibrate if available
@@ -620,10 +672,25 @@ function renderDash(){
   });
   dash.appendChild(qaGrid);
 
-  // Stats
+  // Stats — clickable
   const ss=document.createElement('div');ss.className='ss';
   const sr=profile.taskCount?Math.round(profile.successCount/profile.taskCount*100):100;
-  ss.innerHTML=`<div class="sc"><div class="sv" style="color:var(--cyan)">${profile.taskCount}</div><div class="sl">Tasks</div></div><div class="sc"><div class="sv" style="color:var(--green)">${sr}%</div><div class="sl">Success</div></div><div class="sc"><div class="sv" style="color:var(--amber)">${poolSize}</div><div class="sl">Ideas Ready</div></div>`;
+
+  const sc1=document.createElement('button');sc1.className='sc';
+  sc1.innerHTML='<div class="sv" style="color:var(--cyan)">'+profile.taskCount+'</div><div class="sl">Tasks</div>';
+  sc1.addEventListener('click',()=>{togHist()});
+  ss.appendChild(sc1);
+
+  const sc2=document.createElement('button');sc2.className='sc';
+  sc2.innerHTML='<div class="sv" style="color:var(--green)">'+sr+'%</div><div class="sl">Success</div>';
+  sc2.addEventListener('click',()=>{togHist()});
+  ss.appendChild(sc2);
+
+  const sc3=document.createElement('button');sc3.className='sc';
+  sc3.innerHTML='<div class="sv" style="color:var(--amber)">'+poolSize+'</div><div class="sl">Ideas \u25B8</div>';
+  sc3.addEventListener('click',()=>{togHist()});
+  ss.appendChild(sc3);
+
   dash.appendChild(ss);
 }
 
@@ -645,6 +712,85 @@ function loadCfg(){document.getElementById('cfgInt').value=cfg.interval;document
 function saveCfg(){cfg.interval=parseInt(document.getElementById('cfgInt').value)||10;cfg.unit=document.getElementById('cfgUnit').value;cfg.tone=document.getElementById('cfgTone').value;LS.set('cfg',cfg);nextCheckin=Date.now()+getIntMs();renderDash()}
 function togSettings(){document.getElementById('settingsOv').classList.toggle('show')}
 function clearAll(){LS.del('profile');LS.del('history');LS.del('cfg');profile={taskCount:0,successCount:0,topics:{},hours:{},days:{},created:Date.now()};history=[];cfg={interval:10,unit:'min',tone:'sharp'};loadCfg();renderDash();togSettings()}
+
+// ═══════════════════════════════════════════════════════════════
+// HISTORY / IDEAS PANEL
+// ═══════════════════════════════════════════════════════════════
+function togHist(){document.getElementById('histOv').classList.toggle('show');if(document.getElementById('histOv').classList.contains('show'))renderHistList('all')}
+
+function showHistTab(filter,btn){
+  document.querySelectorAll('.htab').forEach(b=>b.classList.remove('on'));
+  if(btn)btn.classList.add('on');
+  renderHistList(filter);
+}
+
+function renderHistList(filter){
+  const body=document.getElementById('hlistBody');
+  body.innerHTML='';
+  let items=[...history].reverse();
+  if(filter==='ok')items=items.filter(h=>h.ok);
+  if(filter==='fail')items=items.filter(h=>!h.ok);
+
+  if(items.length===0){
+    body.innerHTML='<div class="hemp">No tasks yet. Give THESEUS something to do!</div>';
+    return;
+  }
+
+  items.slice(0,50).forEach(h=>{
+    const el=document.createElement('div');el.className='hitem';
+    const ago=timeAgo(h.ts);
+    let html='<div class="hi-top"><span class="hi-time">'+ago+'</span><span class="hi-st '+(h.ok?'hi-ok':'hi-fl')+'">'+(h.ok?'\u2713 Done':'\u26A0 Retried')+'</span></div>';
+    html+='<div class="hi-task">'+escH(h.task)+'</div>';
+    if(h.result)html+='<div class="hi-res">'+escH(h.result.substring(0,150))+'</div>';
+    el.innerHTML=html;
+
+    // Retry button
+    const retry=document.createElement('button');retry.className='hi-re';
+    retry.textContent='\u21BB Run again';
+    retry.addEventListener('click',()=>{togHist();execTask(h.task)});
+    el.appendChild(retry);
+
+    body.appendChild(el);
+  });
+}
+
+function timeAgo(ts){
+  const d=Date.now()-ts;
+  if(d<60000)return 'just now';
+  if(d<3600000)return Math.floor(d/60000)+'m ago';
+  if(d<86400000)return Math.floor(d/3600000)+'h ago';
+  return Math.floor(d/86400000)+'d ago';
+}
+
+// ═══════════════════════════════════════════════════════════════
+// BACKGROUND CATCH-UP (fires when user returns to tab)
+// ═══════════════════════════════════════════════════════════════
+document.addEventListener('visibilitychange',()=>{
+  if(document.visibilityState==='visible'&&nextCheckin>0){
+    // Check if we missed a check-in while tab was hidden
+    if(Date.now()>=nextCheckin&&!running){
+      console.log('THESEUS: Caught missed check-in on tab return');
+      nextCheckin=Date.now()+getIntMs();
+      doCheckin();
+    }
+  }
+});
+
+// Also try to fire persistent notification via service worker
+if('serviceWorker' in navigator){
+  const swCode=`
+    self.addEventListener('notificationclick',function(e){
+      e.notification.close();
+      e.waitUntil(clients.matchAll({type:'window'}).then(function(cl){
+        for(var c of cl){if(c.url&&'focus' in c)return c.focus()}
+        if(clients.openWindow)return clients.openWindow('.');
+      }));
+    });
+  `;
+  const swBlob=new Blob([swCode],{type:'application/javascript'});
+  const swUrl=URL.createObjectURL(swBlob);
+  navigator.serviceWorker.register(swUrl,{scope:'.'}).catch(()=>{});
+}
 
 // ═══════════════════════════════════════════════════════════════
 // VIEW MANAGEMENT
