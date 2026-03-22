@@ -853,6 +853,31 @@ async function acquireWakeLock(){
 }
 acquireWakeLock();
 
+// Web Worker timer — more resistant to Chrome tab throttling than setInterval
+try{
+  const workerCode='setInterval(function(){postMessage("tick")},1000)';
+  const workerBlob=new Blob([workerCode],{type:'application/javascript'});
+  const timerWorker=new Worker(URL.createObjectURL(workerBlob));
+  timerWorker.onmessage=function(){
+    // Update countdown
+    const el=document.getElementById('cd');
+    if(el&&nextCheckin){
+      const diff=Math.max(0,nextCheckin-Date.now());
+      const m=Math.floor(diff/60000);
+      const s=Math.floor((diff%60000)/1000);
+      el.textContent=String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+    }
+    // Check-in trigger
+    if(Date.now()>=nextCheckin&&nextCheckin>0&&!running){
+      nextCheckin=Date.now()+getIntMs();
+      doCheckin();
+    }
+  };
+}catch(e){
+  // Fallback: use setInterval if Worker fails
+  console.log('Worker timer unavailable, using setInterval fallback');
+}
+
 // Also try to fire persistent notification via service worker
 if('serviceWorker' in navigator){
   const swCode=`
@@ -972,7 +997,13 @@ async function execTask(t){
       await slp(300);showSt('executing',needsWS(t)?'Searching web + reasoning...':'Reasoning...',a);
       const data=await callAPI(t);showSt('processing','Processing...',a);await slp(200);
       let text=(data.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('\n');
+      // Strip cite tags from raw text before JSON parsing
+      text=text.replace(/<\/?cite[^>]*>/gi,'');
       let parsed;try{parsed=JSON.parse(text.replace(/```json|```/g,'').trim())}catch{parsed={thinking:'Direct response',plan:['Executed'],response:text||'Done.',actions:[],status:'complete',category:'general'}}
+      // Clean cite tags and literal \n from all text fields
+      if(parsed.response)parsed.response=cleanAPI(parsed.response);
+      if(parsed.thinking)parsed.thinking=cleanAPI(parsed.thinking);
+      if(parsed.plan)parsed.plan=parsed.plan.map(s=>cleanAPI(s));
       learn(t,parsed.response,true);rmSt();addAMsg(parsed,a);
       running=false;togSend();document.getElementById('hdrSub').innerHTML='<span class="dot"></span> AGENT ALIVE';return;
     }catch(err){lastErr=err;console.error('Attempt '+a+':',err);if(a<MAX){showSt('retrying','Plan '+a+' failed \u2192 engaging plan '+(a+1)+'...',a+1);await slp(1500)}}
@@ -1005,7 +1036,12 @@ function togSend(){document.getElementById('sendBtn').classList.toggle('off',!do
 // MARKDOWN
 // ═══════════════════════════════════════════════════════════════
 function renderMD(text){
-  if(!text)return'';const lines=text.split('\n');let out='',inC=false,cb=[];
+  if(!text)return'';
+  // Clean Claude API artifacts: strip <cite> tags, fix literal \n
+  text=text.replace(/<\/?cite[^>]*>/gi,'');
+  text=text.replace(/\\n/g,'\n');
+  text=text.replace(/\n{3,}/g,'\n\n');
+  const lines=text.split('\n');let out='',inC=false,cb=[];
   for(const l of lines){
     if(l.startsWith('```')&&!inC){inC=true;cb=[];continue}
     if(l.startsWith('```')&&inC){inC=false;out+='<pre><code>'+escH(cb.join('\n'))+'</code></pre>';continue}
@@ -1023,6 +1059,7 @@ function renderMD(text){
 }
 function inl(t){t=escH(t);t=t.replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>');t=t.replace(/`(.+?)`/g,'<code>$1</code>');t=t.replace(/\[(.+?)\]\((https?:\/\/.+?)\)/g,'<a href="$2" target="_blank">$1</a>');return t}
 function escH(s){return s?s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'):''}
+function cleanAPI(s){return s?s.replace(/<\/?cite[^>]*>/gi,'').replace(/\\n/g,'\n').replace(/\n{3,}/g,'\n\n'):''}
 function slp(ms){return new Promise(r=>setTimeout(r,ms))}
 </script>
 </body>
