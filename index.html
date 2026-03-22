@@ -443,7 +443,7 @@ function getProactiveSuggestion(){
 
   // ── INTELLIGENT LEARNED BEHAVIOR ENGINE ──
   // Analyze actual history to generate personalized suggestions
-  const STOPWORDS=new Set(['this','that','what','with','from','about','have','been','want','need','help','make','give','some','find','search','latest','please','should','could','would','their','there','them','they','will','just','also','very','much','more','like','than','into','your','just','know','take','come','good','look','does','most','only','tell','well','back']);
+  const STOPWORDS=new Set(['this','that','what','with','from','about','have','been','want','need','help','make','give','some','find','search','latest','please','should','could','would','their','there','them','they','will','just','also','very','much','more','like','than','into','your','just','know','take','come','good','look','does','most','only','tell','well','back','cannot','sleep','something','calming','either','short','soothing','recommend','ambient','sounds','music','guided','breathing','exercise','right','getting','productive','tonight','gotta','looking','switch','ready','shall','start','keep','stop','show','open','close','best','great','real','time','last','next','every','each','many','full','long','high','same','work','here','when','then','been','being','other','which','these','those','after','before','still','while','where','under','again','further','once','during','doing','having','detail','detailed','comprehensive']);
 
   // Get meaningful topics (filtered)
   const meaningfulTopics=Object.entries(profile.topics||{})
@@ -1062,24 +1062,25 @@ async function execTask(t){
       await slp(300);showSt('executing',needsWS(t)?'Searching web + reasoning...':'Reasoning...',a);
       const data=await callAPI(t);showSt('processing','Processing...',a);await slp(200);
       let text=(data.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('\n');
-      // Strip cite tags from raw text before JSON parsing
-      text=text.replace(/<\/?cite[^>]*>/gi,'');
+      // Strip cite/antml tags
+      text=text.replace(/<\/?cite[^>]*>/gi,'').replace(/<\/?antml:[^>]*>/gi,'');
       let parsed;
       try{
-        parsed=JSON.parse(text.replace(/```json|```/g,'').trim());
+        let jsonStr=text.replace(/```json|```/g,'').trim();
+        parsed=JSON.parse(jsonStr);
       }catch{
-        // Smart fallback: try to extract response field via regex
-        const respMatch=text.match(/"response"\s*:\s*"([\s\S]*?)(?:"\s*,\s*"actions|"\s*,\s*"status|"\s*})/);
-        if(respMatch){
-          const extracted=respMatch[1].replace(/\\n/g,'\n').replace(/\\"/g,'"').replace(/\\\\/g,'\\');
-          parsed={thinking:'Extracted from partial response',plan:['Executed'],response:extracted,actions:[],status:'complete',category:'general'};
-        } else {
-          // Last resort: show raw text but strip JSON fragments
-          let clean=text.replace(/```json|```/g,'').trim();
-          // Remove JSON wrapper if partially visible
-          clean=clean.replace(/^\s*\{[\s\S]*?"response"\s*:\s*"/,'').replace(/"\s*,\s*"actions"[\s\S]*$/,'').replace(/"\s*,\s*"status"[\s\S]*$/,'').replace(/\\"/g,'"').replace(/\\n/g,'\n');
-          parsed={thinking:'Direct response',plan:['Executed'],response:clean||text||'Done.',actions:[],status:'complete',category:'general'};
-        }
+        // JSON parse failed — clean the raw text and show it directly
+        // This is the most reliable fallback: the raw text IS the content
+        let raw=text.replace(/```json|```/g,'').trim();
+        // Strip JSON wrapper if model partially formatted it
+        raw=raw.replace(/^\s*\{\s*"thinking"\s*:[\s\S]*?"response"\s*:\s*"/,'');
+        raw=raw.replace(/"\s*,\s*"actions"\s*:[\s\S]*$/,'');
+        raw=raw.replace(/"\s*,\s*"status"\s*:[\s\S]*$/,'');
+        raw=raw.replace(/"\s*,\s*"category"\s*:[\s\S]*$/,'');
+        raw=raw.replace(/"\s*\}\s*$/,'');
+        raw=raw.replace(/\\n/g,'\n').replace(/\\"/g,'"').replace(/\\\\/g,'\\');
+        raw=raw.replace(/\n{3,}/g,'\n\n').trim();
+        parsed={thinking:'',plan:[],response:raw||'Task completed.',actions:[],status:'complete',category:'general'};
       }
       // Clean all text fields
       if(parsed.response)parsed.response=cleanAPI(parsed.response);
