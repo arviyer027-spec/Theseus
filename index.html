@@ -12,81 +12,59 @@
 <script>
 (function(){
   function genIcon(s){
-    const c=document.createElement('canvas');c.width=s;c.height=s;
-    const x=c.getContext('2d');
+    const c=document.createElement('canvas');c.width=s;c.height=s;const x=c.getContext('2d');
     const bg=x.createRadialGradient(s/2,s/2,0,s/2,s/2,s*.7);
     bg.addColorStop(0,'#101828');bg.addColorStop(1,'#080b12');
     x.fillStyle=bg;x.beginPath();x.roundRect(0,0,s,s,s*.2);x.fill();
     x.font=`800 ${s*.5}px Sora,sans-serif`;x.textAlign='center';x.textBaseline='middle';
     x.shadowColor='#00e5ff';x.shadowBlur=s*.15;x.fillStyle='#00e5ff';
-    x.fillText('Θ',s/2,s/2+s*.015);x.shadowBlur=s*.06;
-    x.fillText('Θ',s/2,s/2+s*.015);x.shadowBlur=0;x.fillText('Θ',s/2,s/2+s*.015);
+    x.fillText('\u0398',s/2,s/2+s*.015);x.shadowBlur=s*.06;
+    x.fillText('\u0398',s/2,s/2+s*.015);x.shadowBlur=0;x.fillText('\u0398',s/2,s/2+s*.015);
     return c.toDataURL('image/png');
   }
   window.addEventListener('DOMContentLoaded',function(){
     setTimeout(function(){
       const i1=genIcon(192),i2=genIcon(512);
-      const f=document.createElement('link');f.rel='icon';f.type='image/png';f.href=i1;document.head.appendChild(f);
-      const a=document.createElement('link');a.rel='apple-touch-icon';a.href=i2;document.head.appendChild(a);
-      const m={name:'THESEUS',short_name:'THESEUS',description:'Autonomous AI Agent OS',start_url:'.',display:'standalone',background_color:'#080b12',theme_color:'#080b12',icons:[{src:i1,sizes:'192x192',type:'image/png'},{src:i2,sizes:'512x512',type:'image/png',purpose:'any maskable'}]};
+      let f=document.createElement('link');f.rel='icon';f.type='image/png';f.href=i1;document.head.appendChild(f);
+      let a=document.createElement('link');a.rel='apple-touch-icon';a.href=i2;document.head.appendChild(a);
+      const m={name:'THESEUS',short_name:'THESEUS',description:'Autonomous AI Agent',start_url:'.',display:'standalone',background_color:'#080b12',theme_color:'#080b12',icons:[{src:i1,sizes:'192x192',type:'image/png'},{src:i2,sizes:'512x512',type:'image/png',purpose:'any maskable'}]};
       const b=new Blob([JSON.stringify(m)],{type:'application/json'});
-      const l=document.createElement('link');l.rel='manifest';l.href=URL.createObjectURL(b);document.head.appendChild(l);
+      let l=document.createElement('link');l.rel='manifest';l.href=URL.createObjectURL(b);document.head.appendChild(l);
     },600);
   });
 })();
 </script>
 <style>
-:root {
-  --bg: #080b12;
-  --bg2: #0d1220;
-  --bg3: #131a2b;
-  --cyan: #00e5ff;
-  --cyan2: #00b8d4;
-  --cyan10: rgba(0,229,255,.1);
-  --cyan06: rgba(0,229,255,.06);
-  --cyan20: rgba(0,229,255,.2);
-  --green: #00e676;
-  --amber: #ffab00;
-  --red: #ff5252;
-  --t1: #eaf0f8;
-  --t2: #b0bec8;
-  --t3: #6d7f92;
-  --t4: #3a4a5c;
-  --radius: 14px;
-  --font: 'Sora', sans-serif;
-  --mono: 'DM Mono', monospace;
-}
+:root{--bg:#080b12;--bg2:#0d1220;--bg3:#131a2b;--cyan:#00e5ff;--cyan2:#00b8d4;--cyan10:rgba(0,229,255,.1);--cyan06:rgba(0,229,255,.06);--cyan20:rgba(0,229,255,.2);--green:#00e676;--amber:#ffab00;--red:#ff5252;--t1:#eaf0f8;--t2:#b0bec8;--t3:#6d7f92;--t4:#3a4a5c;--r:14px;--font:'Sora',sans-serif;--mono:'DM Mono',monospace}
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html,body{height:100%;overflow:hidden;background:var(--bg);font-family:var(--font);color:var(--t2);font-size:15px;line-height:1.55}
 ::-webkit-scrollbar{width:3px}::-webkit-scrollbar-track{background:transparent}::-webkit-scrollbar-thumb{background:var(--cyan10);border-radius:4px}
-button{cursor:pointer;border:none;background:none;font-family:inherit;color:inherit;font-size:inherit}
-button:active{transform:scale(0.97)}
+button{cursor:pointer;border:none;background:none;font-family:inherit;color:inherit;font-size:inherit}button:active{transform:scale(0.97)}
 textarea{font-family:inherit;font-size:inherit}textarea:focus{outline:none}
-a{color:var(--cyan);text-decoration:none}
 
-/* ═══ ANIMATIONS ═══ */
 @keyframes fadeUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
 @keyframes pulse{0%,100%{opacity:1;transform:scale(1)}50%{opacity:.3;transform:scale(.8)}}
 @keyframes breathe{0%,100%{box-shadow:0 0 8px var(--cyan10)}50%{box-shadow:0 0 24px var(--cyan20)}}
 @keyframes blink{0%,50%{opacity:1}51%,100%{opacity:0}}
 @keyframes slideUp{from{transform:translateY(100%);opacity:0}to{transform:translateY(0);opacity:1}}
-@keyframes heartbeat{0%,100%{transform:scale(1)}15%{transform:scale(1.15)}30%{transform:scale(1)}}
-@keyframes orbit{from{transform:rotate(0deg)}to{transform:rotate(360deg)}}
 @keyframes ripple{0%{transform:scale(.8);opacity:.6}100%{transform:scale(2.2);opacity:0}}
+@keyframes heartbeat{0%,100%{transform:scale(1)}15%{transform:scale(1.18)}30%{transform:scale(1)}}
+@keyframes toastIn{from{transform:translateY(-100%);opacity:0}to{transform:translateY(0);opacity:1}}
+@keyframes toastOut{from{opacity:1}to{transform:translateY(-100%);opacity:0}}
+@keyframes glowPulse{0%,100%{border-color:rgba(0,229,255,.15)}50%{border-color:rgba(0,229,255,.5)}}
 
-/* ═══ BOOT ═══ */
-#boot{position:fixed;inset:0;background:var(--bg);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .7s ease}
+/* BOOT */
+#boot{position:fixed;inset:0;background:var(--bg);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;transition:opacity .7s}
 #boot.out{opacity:0;pointer-events:none}
 .b-icon{font-size:72px;color:var(--cyan);font-weight:800;text-shadow:0 0 40px rgba(0,229,255,.35);line-height:1}
 .b-name{font-size:13px;color:rgba(0,229,255,.5);letter-spacing:16px;margin-top:8px;font-weight:300}
 .b-term{width:84%;max-width:360px;margin-top:32px}
 .b-line{font-size:12px;line-height:2.1;font-family:var(--mono);color:rgba(0,229,255,.4);animation:fadeUp .3s ease both}
 .b-line.hl{color:var(--cyan)}
-.b-line::before{content:'▹ ';color:rgba(0,229,255,.2)}
+.b-line::before{content:'\25B9 ';color:rgba(0,229,255,.2)}
 .b-cursor{color:var(--cyan);animation:blink .7s infinite;font-family:var(--mono);font-size:12px}
 
-/* ═══ KEY MODAL ═══ */
+/* KEY MODAL */
 .modal-bg{position:fixed;inset:0;background:rgba(8,11,18,.95);z-index:100;display:none;align-items:center;justify-content:center;padding:24px}
 .modal-bg.show{display:flex}
 .modal{background:var(--bg2);border:1px solid var(--cyan20);border-radius:20px;padding:32px 24px;width:100%;max-width:380px;text-align:center;animation:slideUp .4s ease}
@@ -99,80 +77,94 @@ a{color:var(--cyan);text-decoration:none}
 .modal .m-btn{width:100%;padding:14px;border-radius:12px;background:linear-gradient(135deg,var(--cyan),var(--cyan2));color:var(--bg);font-size:15px;font-weight:700;letter-spacing:.5px;transition:opacity .2s}
 .modal .m-btn:disabled{opacity:.25}
 .modal .m-note{font-size:11px;color:var(--t4);margin-top:12px;font-family:var(--mono);line-height:1.7}
-.modal .m-note a{color:var(--cyan);text-decoration:underline;text-underline-offset:2px}
+.modal .m-note a{color:var(--cyan);text-decoration:underline}
 
-/* ═══ APP SHELL ═══ */
+/* APP SHELL */
 #app{display:none;flex-direction:column;height:100%;width:100%}
 #app.on{display:flex}
 
-/* ═══ HEADER ═══ */
+/* TOAST NOTIFICATION */
+.toast{position:fixed;top:0;left:0;right:0;z-index:60;padding:14px 16px;background:linear-gradient(135deg,rgba(0,229,255,.15),rgba(0,229,255,.05));border-bottom:2px solid var(--cyan);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);animation:toastIn .4s ease;display:flex;align-items:flex-start;gap:12px}
+.toast.out{animation:toastOut .3s ease forwards}
+.toast .t-pulse{width:10px;height:10px;border-radius:50%;background:var(--cyan);animation:pulse 1s infinite;flex-shrink:0;margin-top:4px}
+.toast .t-body{flex:1}
+.toast .t-title{font-size:12px;font-family:var(--mono);color:var(--cyan);letter-spacing:1px;font-weight:600;text-transform:uppercase}
+.toast .t-msg{font-size:15px;color:var(--t1);margin-top:4px;line-height:1.45;font-weight:500}
+.toast .t-actions{display:flex;gap:8px;margin-top:10px}
+.toast .t-btn{padding:8px 16px;border-radius:9px;font-size:13px;font-weight:600;transition:all .2s}
+.toast .t-btn.primary{background:var(--cyan);color:var(--bg)}
+.toast .t-btn.secondary{background:rgba(255,255,255,.08);color:var(--t2);border:1px solid rgba(255,255,255,.1)}
+.toast .t-close{position:absolute;top:10px;right:12px;font-size:18px;color:var(--t3);padding:4px}
+
+/* HEADER */
 .hdr{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;border-bottom:1px solid rgba(0,229,255,.06);background:linear-gradient(180deg,var(--bg2),var(--bg));flex-shrink:0;z-index:10}
 .hdr-left{display:flex;align-items:center;gap:11px}
 .hdr-logo{position:relative;font-size:26px;color:var(--cyan);font-weight:800;width:40px;height:40px;display:flex;align-items:center;justify-content:center;border:1.5px solid rgba(0,229,255,.25);border-radius:12px;background:var(--cyan06);text-shadow:0 0 14px rgba(0,229,255,.3)}
-.hdr-logo .heartbeat{position:absolute;inset:-3px;border:1.5px solid var(--cyan);border-radius:14px;animation:ripple 2.5s ease-out infinite;pointer-events:none}
+.hdr-logo .hb{position:absolute;inset:-3px;border:1.5px solid var(--cyan);border-radius:14px;animation:ripple 2.5s ease-out infinite;pointer-events:none}
 .hdr-title{font-size:16px;font-weight:700;color:var(--t1);letter-spacing:4px}
 .hdr-sub{font-size:10px;letter-spacing:1.2px;font-family:var(--mono);color:var(--t4);margin-top:2px;display:flex;align-items:center;gap:6px}
-.hdr-sub .alive-dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
+.hdr-sub .dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2s infinite}
 .hdr-right{display:flex;gap:8px;align-items:center}
 .hdr-btn{width:38px;height:38px;border-radius:10px;background:var(--cyan06);border:1px solid rgba(0,229,255,.12);display:flex;align-items:center;justify-content:center;font-size:18px;transition:background .2s}
 .hdr-btn:active{background:var(--cyan10)}
 
-/* ═══ VIEWS ═══ */
+/* VIEWS */
 .view{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;display:none;flex-direction:column}
 .view.active{display:flex}
 
-/* ═══ DASHBOARD VIEW ═══ */
+/* DASHBOARD */
 .dash{padding:20px 16px;gap:16px}
 .greet{animation:fadeUp .5s ease both}
 .greet-hi{font-size:14px;color:var(--t3);font-family:var(--mono);letter-spacing:.5px;margin-bottom:4px}
 .greet-msg{font-size:24px;font-weight:700;color:var(--t1);line-height:1.3}
 .greet-msg span{color:var(--cyan)}
 
-/* Proactive card */
-.proactive-card{background:linear-gradient(135deg,rgba(0,229,255,.08),rgba(0,229,255,.02));border:1px solid rgba(0,229,255,.15);border-radius:16px;padding:18px;animation:fadeUp .6s ease both;animation-delay:.1s;position:relative;overflow:hidden}
-.proactive-card::before{content:'';position:absolute;top:-30%;right:-20%;width:120px;height:120px;background:radial-gradient(circle,rgba(0,229,255,.08),transparent 70%);pointer-events:none}
-.pc-head{display:flex;align-items:center;gap:8px;margin-bottom:10px}
-.pc-head .pc-dot{width:8px;height:8px;border-radius:50%;background:var(--cyan);animation:pulse 2s infinite}
-.pc-head .pc-label{font-size:11px;font-family:var(--mono);color:var(--cyan);letter-spacing:1px;font-weight:500;text-transform:uppercase}
+/* Proactive suggestion card */
+.pc{background:linear-gradient(135deg,rgba(0,229,255,.08),rgba(0,229,255,.02));border:1px solid rgba(0,229,255,.15);border-radius:16px;padding:18px;animation:fadeUp .6s ease both;animation-delay:.1s;position:relative;overflow:hidden}
+.pc.glow{animation:glowPulse 1s ease 3}
+.pc::before{content:'';position:absolute;top:-30%;right:-20%;width:120px;height:120px;background:radial-gradient(circle,rgba(0,229,255,.08),transparent 70%);pointer-events:none}
+.pc-hd{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.pc-hd .d{width:8px;height:8px;border-radius:50%;background:var(--cyan);animation:pulse 2s infinite}
+.pc-hd .l{font-size:11px;font-family:var(--mono);color:var(--cyan);letter-spacing:1px;font-weight:500;text-transform:uppercase}
 .pc-msg{font-size:16px;color:var(--t1);font-weight:500;line-height:1.5;margin-bottom:14px}
-.pc-actions{display:flex;gap:8px;flex-wrap:wrap}
-.pc-btn{padding:10px 16px;border-radius:10px;background:rgba(0,229,255,.1);border:1px solid rgba(0,229,255,.2);color:var(--cyan);font-size:13px;font-weight:600;transition:all .2s;display:flex;align-items:center;gap:6px}
-.pc-btn:active{background:rgba(0,229,255,.2)}
-.pc-btn.primary{background:linear-gradient(135deg,var(--cyan),var(--cyan2));color:var(--bg);border:none}
+.pc-acts{display:flex;gap:8px;flex-wrap:wrap}
+.pc-b{padding:10px 16px;border-radius:10px;font-size:13px;font-weight:600;transition:all .2s;display:flex;align-items:center;gap:6px}
+.pc-b:active{transform:scale(.96)}
+.pc-b.pri{background:linear-gradient(135deg,var(--cyan),var(--cyan2));color:var(--bg);border:none}
+.pc-b.sec{background:rgba(0,229,255,.1);border:1px solid rgba(0,229,255,.2);color:var(--cyan)}
 
 /* Timer bar */
-.timer-bar{display:flex;align-items:center;gap:10px;padding:14px 16px;background:var(--bg2);border:1px solid rgba(0,229,255,.06);border-radius:14px;animation:fadeUp .7s ease both;animation-delay:.2s}
-.timer-bar .t-icon{font-size:20px}
-.timer-bar .t-text{flex:1}
-.timer-bar .t-label{font-size:12px;color:var(--t3);font-family:var(--mono)}
-.timer-bar .t-countdown{font-size:15px;color:var(--t1);font-weight:600;font-family:var(--mono)}
-.timer-bar .t-cfg{padding:6px 12px;border-radius:8px;background:var(--cyan06);border:1px solid rgba(0,229,255,.12);font-size:12px;color:var(--cyan);font-family:var(--mono);font-weight:500}
+.tb{display:flex;align-items:center;gap:10px;padding:14px 16px;background:var(--bg2);border:1px solid rgba(0,229,255,.06);border-radius:14px;animation:fadeUp .7s ease both;animation-delay:.2s}
+.tb .ti{font-size:20px}.tb .tt{flex:1}
+.tb .tl{font-size:12px;color:var(--t3);font-family:var(--mono)}
+.tb .tc{font-size:15px;color:var(--t1);font-weight:600;font-family:var(--mono)}
+.tb .tcfg{padding:6px 12px;border-radius:8px;background:var(--cyan06);border:1px solid rgba(0,229,255,.12);font-size:12px;color:var(--cyan);font-family:var(--mono);font-weight:500}
 
 /* Quick actions */
-.qa-title{font-size:12px;color:var(--t4);font-family:var(--mono);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;animation:fadeUp .8s ease both;animation-delay:.3s}
-.qa-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;animation:fadeUp .8s ease both;animation-delay:.35s}
-.qa-card{display:flex;align-items:center;gap:12px;padding:16px;border-radius:14px;background:var(--bg2);border:1px solid rgba(255,255,255,.04);transition:all .2s}
-.qa-card:active{background:var(--bg3);border-color:rgba(0,229,255,.15)}
-.qa-card .qa-icon{font-size:24px;width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:12px;background:var(--cyan06);flex-shrink:0}
-.qa-card .qa-name{font-size:13px;font-weight:600;color:var(--t1)}
-.qa-card .qa-desc{font-size:11px;color:var(--t3);margin-top:2px;line-height:1.3}
+.qa-t{font-size:12px;color:var(--t4);font-family:var(--mono);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:10px;animation:fadeUp .8s ease both;animation-delay:.3s}
+.qa-g{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;animation:fadeUp .8s ease both;animation-delay:.35s}
+.qa-c{display:flex;align-items:center;gap:12px;padding:16px;border-radius:14px;background:var(--bg2);border:1px solid rgba(255,255,255,.04);transition:all .2s}
+.qa-c:active{background:var(--bg3);border-color:rgba(0,229,255,.15)}
+.qa-c .qi{font-size:24px;width:44px;height:44px;display:flex;align-items:center;justify-content:center;border-radius:12px;background:var(--cyan06);flex-shrink:0}
+.qa-c .qn{font-size:13px;font-weight:600;color:var(--t1)}
+.qa-c .qd{font-size:11px;color:var(--t3);margin-top:2px;line-height:1.3}
 
-/* Stats strip */
-.stats-strip{display:flex;gap:10px;animation:fadeUp .9s ease both;animation-delay:.4s}
-.stat-card{flex:1;padding:14px;border-radius:12px;background:var(--bg2);border:1px solid rgba(255,255,255,.03);text-align:center}
-.stat-card .s-val{font-size:22px;font-weight:700;font-family:var(--mono)}
-.stat-card .s-label{font-size:10px;color:var(--t4);font-family:var(--mono);letter-spacing:.8px;margin-top:3px;text-transform:uppercase}
+/* Stats */
+.ss{display:flex;gap:10px;animation:fadeUp .9s ease both;animation-delay:.4s}
+.sc{flex:1;padding:14px;border-radius:12px;background:var(--bg2);border:1px solid rgba(255,255,255,.03);text-align:center}
+.sc .sv{font-size:22px;font-weight:700;font-family:var(--mono)}
+.sc .sl{font-size:10px;color:var(--t4);font-family:var(--mono);letter-spacing:.8px;margin-top:3px;text-transform:uppercase}
 
-/* ═══ CHAT VIEW ═══ */
+/* CHAT VIEW */
 .chat{padding:14px 14px 0}
 .chat-back{display:flex;align-items:center;gap:6px;padding:8px 0 14px;color:var(--cyan);font-size:13px;font-weight:600;font-family:var(--mono);letter-spacing:.5px}
 .chat-back svg{width:18px;height:18px}
 .chat-msgs{flex:1;overflow-y:auto;display:flex;flex-direction:column;gap:12px;padding-bottom:14px}
 
-.msg-u{display:flex;justify-content:flex-end;animation:fadeUp .3s ease}
+.msg-u{display:flex;justify-content:flex-end;animation:fadeUp .3s}
 .bbl-u{max-width:84%;padding:12px 16px;background:linear-gradient(135deg,rgba(0,229,255,.12),rgba(0,229,255,.05));border:1px solid rgba(0,229,255,.18);border-radius:16px 16px 4px 16px;font-size:15px;line-height:1.55;color:var(--t1)}
 
-.msg-a{display:flex;justify-content:flex-start;animation:fadeUp .4s ease}
+.msg-a{display:flex;justify-content:flex-start;animation:fadeUp .4s}
 .bbl-a{max-width:98%;width:100%;display:flex;flex-direction:column;gap:8px}
 
 .chips{display:flex;gap:6px;flex-wrap:wrap}
@@ -182,686 +174,607 @@ a{color:var(--cyan);text-decoration:none}
 .chip-cat{background:var(--cyan06);color:rgba(0,229,255,.6);border:1px solid rgba(0,229,255,.1)}
 .chip-retry{background:rgba(255,171,0,.08);color:var(--amber);border:1px solid rgba(255,171,0,.15)}
 
-.think-box{padding:10px 14px;background:rgba(0,229,255,.03);border:1px solid rgba(0,229,255,.08);border-radius:12px;border-left:3px solid rgba(0,229,255,.25)}
-.think-box .lbl{font-size:10px;color:rgba(0,229,255,.45);font-family:var(--mono);text-transform:uppercase;letter-spacing:1.2px}
-.think-box .val{font-size:13px;color:rgba(0,229,255,.7);margin-top:4px;line-height:1.55}
+.tbox{padding:10px 14px;background:rgba(0,229,255,.03);border:1px solid rgba(0,229,255,.08);border-radius:12px;border-left:3px solid rgba(0,229,255,.25)}
+.tbox .lb{font-size:10px;color:rgba(0,229,255,.45);font-family:var(--mono);text-transform:uppercase;letter-spacing:1.2px}
+.tbox .vl{font-size:13px;color:rgba(0,229,255,.7);margin-top:4px;line-height:1.55}
 
-.plan-box{padding:10px 14px;background:rgba(0,229,255,.02);border:1px solid rgba(0,229,255,.06);border-radius:12px}
-.plan-box .lbl{font-size:10px;color:rgba(0,229,255,.45);font-family:var(--mono);text-transform:uppercase;letter-spacing:1.2px;margin-bottom:4px}
-.plan-step{display:flex;align-items:flex-start;gap:8px;margin-top:3px}
-.plan-step .dot{color:var(--green);font-size:11px;font-family:var(--mono);margin-top:2px;flex-shrink:0}
-.plan-step .txt{font-size:13px;color:var(--t2)}
+.pbox{padding:10px 14px;background:rgba(0,229,255,.02);border:1px solid rgba(0,229,255,.06);border-radius:12px}
+.pbox .lb{font-size:10px;color:rgba(0,229,255,.45);font-family:var(--mono);text-transform:uppercase;letter-spacing:1.2px;margin-bottom:4px}
+.ps{display:flex;align-items:flex-start;gap:8px;margin-top:3px}
+.ps .dt{color:var(--green);font-size:11px;font-family:var(--mono);margin-top:2px;flex-shrink:0}
+.ps .tx{font-size:13px;color:var(--t2)}
 
-.resp-body{padding:12px 16px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.04);border-radius:14px;font-size:15px;line-height:1.7;color:var(--t2)}
-.resp-body h1{font-size:19px;font-weight:700;color:var(--t1);margin:10px 0 5px}
-.resp-body h2{font-size:17px;font-weight:600;color:var(--t1);margin:8px 0 4px}
-.resp-body h3{font-size:15px;font-weight:600;color:var(--t1);margin:6px 0 3px}
-.resp-body p{margin-bottom:5px}
-.resp-body strong{color:var(--t1);font-weight:600}
-.resp-body code{background:rgba(0,229,255,.08);padding:2px 6px;border-radius:5px;font-family:var(--mono);font-size:13px;color:var(--cyan)}
-.resp-body pre{background:rgba(0,0,0,.35);padding:12px 14px;border-radius:10px;border:1px solid rgba(0,229,255,.08);font-family:var(--mono);font-size:12px;line-height:1.65;color:#8cc8e8;overflow-x:auto;margin:6px 0;white-space:pre-wrap}
-.resp-body .bul{display:flex;align-items:flex-start;gap:8px;margin-bottom:3px;padding-left:4px}
-.resp-body .bul::before{content:'▹';color:var(--cyan);flex-shrink:0}
-.resp-body a{color:var(--cyan);text-decoration:underline;text-underline-offset:3px}
+.rb{padding:12px 16px;background:rgba(255,255,255,.02);border:1px solid rgba(255,255,255,.04);border-radius:14px;font-size:15px;line-height:1.7;color:var(--t2)}
+.rb h1{font-size:19px;font-weight:700;color:var(--t1);margin:10px 0 5px}
+.rb h2{font-size:17px;font-weight:600;color:var(--t1);margin:8px 0 4px}
+.rb h3{font-size:15px;font-weight:600;color:var(--t1);margin:6px 0 3px}
+.rb p{margin-bottom:5px}
+.rb strong{color:var(--t1);font-weight:600}
+.rb code{background:rgba(0,229,255,.08);padding:2px 6px;border-radius:5px;font-family:var(--mono);font-size:13px;color:var(--cyan)}
+.rb pre{background:rgba(0,0,0,.35);padding:12px 14px;border-radius:10px;border:1px solid rgba(0,229,255,.08);font-family:var(--mono);font-size:12px;line-height:1.65;color:#8cc8e8;overflow-x:auto;margin:6px 0;white-space:pre-wrap}
+.rb .bl{display:flex;align-items:flex-start;gap:8px;margin-bottom:3px;padding-left:4px}
+.rb .bl::before{content:'\25B9';color:var(--cyan);flex-shrink:0}
+.rb a{color:var(--cyan);text-decoration:underline;text-underline-offset:3px}
 
-.follow-row{display:flex;gap:6px;flex-wrap:wrap}
-.follow-btn{padding:8px 14px;border-radius:9px;background:var(--cyan06);border:1px solid rgba(0,229,255,.15);color:var(--cyan);font-size:13px;font-family:var(--mono);font-weight:500;transition:all .2s;display:flex;align-items:center;gap:5px}
-.follow-btn:active{background:var(--cyan10)}
+.frow{display:flex;gap:6px;flex-wrap:wrap}
+.fbtn{padding:8px 14px;border-radius:9px;background:var(--cyan06);border:1px solid rgba(0,229,255,.15);color:var(--cyan);font-size:13px;font-family:var(--mono);font-weight:500;transition:all .2s;display:flex;align-items:center;gap:5px}
+.fbtn:active{background:var(--cyan10)}
 
 /* Status */
-.status-live{display:flex;align-items:center;gap:10px;padding:12px 14px;background:var(--cyan06);border:1px solid rgba(0,229,255,.12);border-radius:14px;animation:breathe 2.5s ease-in-out infinite}
-.status-live .s-dot{width:8px;height:8px;border-radius:50%;background:var(--cyan);animation:pulse 1.2s ease-in-out infinite;flex-shrink:0}
-.status-live .s-phase{font-size:12px;font-family:var(--mono);color:var(--cyan);font-weight:600;letter-spacing:.8px}
-.status-live .s-msg{font-size:13px;color:var(--t3);margin-top:1px}
-.status-live .s-attempt{margin-left:auto;padding:3px 9px;border-radius:6px;background:rgba(255,171,0,.1);border:1px solid rgba(255,171,0,.15);color:var(--amber);font-size:10px;font-family:var(--mono);font-weight:600}
+.slive{display:flex;align-items:center;gap:10px;padding:12px 14px;background:var(--cyan06);border:1px solid rgba(0,229,255,.12);border-radius:14px;animation:breathe 2.5s ease-in-out infinite}
+.slive .sd{width:8px;height:8px;border-radius:50%;background:var(--cyan);animation:pulse 1.2s ease-in-out infinite;flex-shrink:0}
+.slive .sp{font-size:12px;font-family:var(--mono);color:var(--cyan);font-weight:600;letter-spacing:.8px}
+.slive .sm{font-size:13px;color:var(--t3);margin-top:1px}
+.slive .sa{margin-left:auto;padding:3px 9px;border-radius:6px;background:rgba(255,171,0,.1);border:1px solid rgba(255,171,0,.15);color:var(--amber);font-size:10px;font-family:var(--mono);font-weight:600}
 
-/* ═══ SETTINGS PANEL ═══ */
-.settings-overlay{position:fixed;inset:0;background:rgba(8,11,18,.92);z-index:50;display:none;align-items:flex-end;justify-content:center}
-.settings-overlay.show{display:flex}
-.settings-panel{width:100%;max-width:480px;max-height:85vh;background:var(--bg2);border-radius:20px 20px 0 0;border:1px solid rgba(0,229,255,.1);border-bottom:none;padding:24px 20px 32px;overflow-y:auto;animation:slideUp .35s ease}
-.settings-panel .s-handle{width:36px;height:4px;border-radius:2px;background:var(--t4);margin:0 auto 20px}
-.settings-panel h2{font-size:20px;font-weight:700;color:var(--t1);margin-bottom:20px}
-.s-group{margin-bottom:20px}
-.s-group label{display:block;font-size:12px;color:var(--t3);font-family:var(--mono);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px}
-.s-row{display:flex;align-items:center;gap:12px;padding:14px 16px;background:var(--bg);border:1px solid rgba(255,255,255,.04);border-radius:12px;margin-bottom:8px}
-.s-row .sr-icon{font-size:20px;flex-shrink:0}
-.s-row .sr-text{flex:1;font-size:14px;color:var(--t2)}
-.s-row .sr-text small{display:block;font-size:11px;color:var(--t4);margin-top:2px}
-.s-row select,.s-row input[type=number]{background:var(--bg2);border:1px solid rgba(0,229,255,.15);border-radius:8px;padding:8px 12px;color:var(--t1);font-family:var(--mono);font-size:13px;outline:none;width:90px;text-align:center}
-.s-row select{width:auto}
-.s-danger{padding:12px 18px;border-radius:12px;background:rgba(255,82,82,.08);border:1px solid rgba(255,82,82,.15);color:var(--red);font-size:14px;font-weight:600;width:100%}
-.s-close{width:100%;padding:14px;border-radius:12px;background:var(--cyan10);color:var(--cyan);font-size:15px;font-weight:700;margin-top:8px;border:1px solid rgba(0,229,255,.15)}
+/* SETTINGS */
+.sov{position:fixed;inset:0;background:rgba(8,11,18,.92);z-index:50;display:none;align-items:flex-end;justify-content:center}
+.sov.show{display:flex}
+.spnl{width:100%;max-width:480px;max-height:85vh;background:var(--bg2);border-radius:20px 20px 0 0;border:1px solid rgba(0,229,255,.1);border-bottom:none;padding:24px 20px 32px;overflow-y:auto;animation:slideUp .35s ease}
+.spnl .sh{width:36px;height:4px;border-radius:2px;background:var(--t4);margin:0 auto 20px}
+.spnl h2{font-size:20px;font-weight:700;color:var(--t1);margin-bottom:20px}
+.sg{margin-bottom:20px}
+.sg label{display:block;font-size:12px;color:var(--t3);font-family:var(--mono);letter-spacing:1px;text-transform:uppercase;margin-bottom:8px}
+.sr{display:flex;align-items:center;gap:12px;padding:14px 16px;background:var(--bg);border:1px solid rgba(255,255,255,.04);border-radius:12px;margin-bottom:8px}
+.sr .si{font-size:20px;flex-shrink:0}
+.sr .st{flex:1;font-size:14px;color:var(--t2)}
+.sr .st small{display:block;font-size:11px;color:var(--t4);margin-top:2px}
+.sr select,.sr input[type=number]{background:var(--bg2);border:1px solid rgba(0,229,255,.15);border-radius:8px;padding:8px 12px;color:var(--t1);font-family:var(--mono);font-size:13px;outline:none;width:90px;text-align:center}
+.sr select{width:auto}
+.sdng{padding:12px 18px;border-radius:12px;background:rgba(255,82,82,.08);border:1px solid rgba(255,82,82,.15);color:var(--red);font-size:14px;font-weight:600;width:100%}
+.scls{width:100%;padding:14px;border-radius:12px;background:var(--cyan10);color:var(--cyan);font-size:15px;font-weight:700;margin-top:8px;border:1px solid rgba(0,229,255,.15)}
 
-/* ═══ INPUT BAR ═══ */
-.input-bar{padding:10px 14px 16px;border-top:1px solid rgba(0,229,255,.06);background:linear-gradient(0deg,var(--bg2),var(--bg));flex-shrink:0}
-.input-wrap{display:flex;align-items:flex-end;gap:8px;background:rgba(0,229,255,.03);border:1.5px solid rgba(0,229,255,.12);border-radius:16px;padding:6px 8px 6px 16px;transition:border-color .3s}
-.input-wrap:focus-within{border-color:rgba(0,229,255,.35)}
-.input-wrap textarea{flex:1;background:transparent;border:none;color:var(--t1);font-size:15px;resize:none;line-height:1.5;max-height:120px;padding:7px 0}
-.send-btn{width:40px;height:40px;border-radius:11px;background:linear-gradient(135deg,var(--cyan),var(--cyan2));display:flex;align-items:center;justify-content:center;color:var(--bg);flex-shrink:0;transition:opacity .2s}
-.send-btn.off{opacity:.2;pointer-events:none}
-.send-btn svg{width:19px;height:19px}
-.input-foot{display:flex;justify-content:center;gap:6px;margin-top:7px;font-size:9px;color:rgba(0,229,255,.18);font-family:var(--mono);letter-spacing:.5px}
+/* INPUT */
+.ibar{padding:10px 14px 16px;border-top:1px solid rgba(0,229,255,.06);background:linear-gradient(0deg,var(--bg2),var(--bg));flex-shrink:0}
+.iwrap{display:flex;align-items:flex-end;gap:8px;background:rgba(0,229,255,.03);border:1.5px solid rgba(0,229,255,.12);border-radius:16px;padding:6px 8px 6px 16px;transition:border-color .3s}
+.iwrap:focus-within{border-color:rgba(0,229,255,.35)}
+.iwrap textarea{flex:1;background:transparent;border:none;color:var(--t1);font-size:15px;resize:none;line-height:1.5;max-height:120px;padding:7px 0}
+.sbtn{width:40px;height:40px;border-radius:11px;background:linear-gradient(135deg,var(--cyan),var(--cyan2));display:flex;align-items:center;justify-content:center;color:var(--bg);flex-shrink:0;transition:opacity .2s}
+.sbtn.off{opacity:.2;pointer-events:none}
+.sbtn svg{width:19px;height:19px}
+.ifoot{display:flex;justify-content:center;gap:6px;margin-top:7px;font-size:9px;color:rgba(0,229,255,.18);font-family:var(--mono);letter-spacing:.5px}
 </style>
 </head>
 <body>
 
-<!-- ═══ BOOT ═══ -->
-<div id="boot"><div class="b-icon">Θ</div><div class="b-name">THESEUS</div><div class="b-term" id="bTerm"></div></div>
+<div id="boot"><div class="b-icon">&Theta;</div><div class="b-name">THESEUS</div><div class="b-term" id="bTerm"></div></div>
 
-<!-- ═══ KEY MODAL ═══ -->
 <div id="keyModal" class="modal-bg">
   <div class="modal">
-    <div class="m-icon">Θ</div>
+    <div class="m-icon">&Theta;</div>
     <h2>Activate THESEUS</h2>
-    <p>Your API key powers the agent brain. It stays on this device only — sent directly to Anthropic's API and nowhere else.</p>
+    <p>Your API key powers the agent brain. Stored only on this device, sent directly to Anthropic.</p>
     <input type="password" id="keyIn" placeholder="sk-ant-api03-..." autocomplete="off">
     <button class="m-btn" id="keyGo" disabled>INITIALIZE AGENT</button>
-    <div class="m-note"><a href="https://console.anthropic.com/settings/keys" target="_blank">Get your key at console.anthropic.com →</a><br>Sign up → API Keys → Create Key → paste above</div>
+    <div class="m-note"><a href="https://console.anthropic.com/settings/keys" target="_blank">Get your key at console.anthropic.com &rarr;</a><br>Sign up &rarr; API Keys &rarr; Create Key &rarr; paste above</div>
   </div>
 </div>
 
-<!-- ═══ SETTINGS ═══ -->
-<div id="settingsOverlay" class="settings-overlay" onclick="if(event.target===this)toggleSettings()">
-  <div class="settings-panel">
-    <div class="s-handle"></div>
+<div id="settingsOv" class="sov" onclick="if(event.target===this)togSettings()">
+  <div class="spnl">
+    <div class="sh"></div>
     <h2>Agent Settings</h2>
-    <div class="s-group">
-      <label>Proactive Check-in Interval</label>
-      <div class="s-row">
-        <span class="sr-icon">🔁</span>
-        <div class="sr-text">THESEUS checks in every<small>Suggests actions based on time & your history</small></div>
-        <input type="number" id="cfgInterval" min="1" max="120" value="10" onchange="saveSettings()">
-        <select id="cfgUnit" onchange="saveSettings()">
-          <option value="min">min</option>
-          <option value="hr">hr</option>
-        </select>
+    <div class="sg"><label>Proactive Check-in</label>
+      <div class="sr"><span class="si">&#128257;</span><div class="st">Check-in interval<small>Agent initiates with smart suggestions</small></div>
+        <input type="number" id="cfgInt" min="1" max="120" value="10" onchange="saveCfg()">
+        <select id="cfgUnit" onchange="saveCfg()"><option value="min">min</option><option value="hr">hr</option></select>
       </div>
     </div>
-    <div class="s-group">
-      <label>Agent Personality</label>
-      <div class="s-row">
-        <span class="sr-icon">🧠</span>
-        <div class="sr-text">Communication style<small>How THESEUS talks to you</small></div>
-        <select id="cfgTone" onchange="saveSettings()">
-          <option value="professional">Sharp</option>
-          <option value="friendly">Friendly</option>
-          <option value="minimal">Minimal</option>
-        </select>
+    <div class="sg"><label>Personality</label>
+      <div class="sr"><span class="si">&#129504;</span><div class="st">Communication style<small>How THESEUS talks to you</small></div>
+        <select id="cfgTone" onchange="saveCfg()"><option value="sharp">Sharp</option><option value="friendly">Friendly</option><option value="minimal">Minimal</option></select>
       </div>
     </div>
-    <div class="s-group">
-      <label>API Key</label>
-      <div class="s-row">
-        <span class="sr-icon">🔑</span>
-        <div class="sr-text" id="keyDisplay">sk-ant-•••••••</div>
-        <button style="padding:6px 12px;border-radius:8px;background:var(--cyan06);border:1px solid rgba(0,229,255,.12);font-size:12px;color:var(--cyan);font-family:var(--mono)" onclick="changeKey()">Change</button>
+    <div class="sg"><label>API Key</label>
+      <div class="sr"><span class="si">&#128273;</span><div class="st" id="keyDisp">sk-ant-&bull;&bull;&bull;&bull;</div>
+        <button style="padding:6px 12px;border-radius:8px;background:var(--cyan06);border:1px solid rgba(0,229,255,.12);font-size:12px;color:var(--cyan);font-family:var(--mono)" onclick="chgKey()">Change</button>
       </div>
     </div>
-    <div class="s-group">
-      <label>Data</label>
-      <button class="s-danger" onclick="if(confirm('Clear all THESEUS memory and history?')){clearAll()}">Reset All Memory & History</button>
+    <div class="sg"><label>Data</label>
+      <button class="sdng" onclick="if(confirm('Clear all THESEUS memory?')){clearAll()}">Reset All Memory &amp; History</button>
     </div>
-    <button class="s-close" onclick="toggleSettings()">Done</button>
+    <button class="scls" onclick="togSettings()">Done</button>
   </div>
 </div>
 
-<!-- ═══ MAIN APP ═══ -->
+<!-- Toast container -->
+<div id="toastZone"></div>
+
 <div id="app">
   <div class="hdr">
     <div class="hdr-left">
-      <div class="hdr-logo">Θ<div class="heartbeat"></div></div>
-      <div>
-        <div class="hdr-title">THESEUS</div>
-        <div class="hdr-sub" id="hdrSub"><span class="alive-dot"></span> AGENT ALIVE</div>
-      </div>
+      <div class="hdr-logo">&Theta;<div class="hb"></div></div>
+      <div><div class="hdr-title">THESEUS</div><div class="hdr-sub" id="hdrSub"><span class="dot"></span> AGENT ALIVE</div></div>
     </div>
     <div class="hdr-right">
-      <button class="hdr-btn" onclick="showView('dash')" title="Dashboard">🏠</button>
-      <button class="hdr-btn" onclick="toggleSettings()" title="Settings">⚙️</button>
+      <button class="hdr-btn" onclick="showView('dash')" title="Dashboard">&#127968;</button>
+      <button class="hdr-btn" onclick="togSettings()" title="Settings">&#9881;&#65039;</button>
     </div>
   </div>
-
-  <!-- DASHBOARD VIEW -->
   <div class="view dash active" id="viewDash"></div>
-
-  <!-- CHAT VIEW -->
   <div class="view chat" id="viewChat">
     <button class="chat-back" onclick="showView('dash')">
-      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M19 12H5"/><path d="M12 5l-7 7 7 7"/></svg>
-      DASHBOARD
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M19 12H5"/><path d="M12 5l-7 7 7 7"/></svg>DASHBOARD
     </button>
     <div class="chat-msgs" id="chatMsgs"></div>
   </div>
-
-  <!-- INPUT BAR -->
-  <div class="input-bar">
-    <div class="input-wrap">
+  <div class="ibar">
+    <div class="iwrap">
       <textarea id="inp" rows="1" placeholder="Ask THESEUS anything..." oninput="autoGrow(this);togSend()"></textarea>
-      <button class="send-btn off" id="sendBtn" onclick="handleSend()">
+      <button class="sbtn off" id="sendBtn" onclick="doSend()">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 2L11 13"/><path d="M22 2L15 22L11 13L2 9L22 2Z"/></svg>
       </button>
     </div>
-    <div class="input-foot"><span>THESEUS v2</span><span>•</span><span>Proactive • Autonomous • Persistent</span></div>
+    <div class="ifoot"><span>THESEUS v2.1</span><span>&bull;</span><span>Proactive &bull; Autonomous &bull; Never Fails</span></div>
   </div>
 </div>
 
 <script>
 // ═══════════════════════════════════════════════════════════════
-// THESEUS V2 — PROACTIVE AUTONOMOUS AGENT
+// THESEUS V2.1 — PROACTIVE AUTONOMOUS AI AGENT
 // ═══════════════════════════════════════════════════════════════
 
-// ── Storage ───────────────────────────────────────────────────
-const S={
-  get(k){try{return JSON.parse(localStorage.getItem('t2_'+k))}catch{return null}},
-  set(k,v){try{localStorage.setItem('t2_'+k,JSON.stringify(v))}catch(e){console.error(e)}},
-  del(k){localStorage.removeItem('t2_'+k)}
-};
+const LS={get(k){try{return JSON.parse(localStorage.getItem('t2_'+k))}catch{return null}},set(k,v){try{localStorage.setItem('t2_'+k,JSON.stringify(v))}catch{}},del(k){localStorage.removeItem('t2_'+k)}};
 
-// ── State ─────────────────────────────────────────────────────
-let API_KEY = S.get('key') || '';
-let running = false;
-let chatMsgs = [];
-let profile = S.get('profile') || {taskCount:0,successCount:0,topics:{},created:Date.now()};
-let history = S.get('history') || [];
-let settings = S.get('settings') || {interval:10,unit:'min',tone:'professional'};
-let checkinTimer = null;
-let nextCheckin = null;
-let countdownTimer = null;
-window._tActions = []; // Safe registry for follow-up action prompts
+let API_KEY=LS.get('key')||'';
+let running=false;
+let profile=LS.get('profile')||{taskCount:0,successCount:0,topics:{},hours:{},days:{},created:Date.now()};
+let history=LS.get('history')||[];
+let cfg=LS.get('cfg')||{interval:10,unit:'min',tone:'sharp'};
+let nextCheckin=0;
+let currentSuggestion=null;
+window._ta=[];
 
-// Request notification permission early
-if('Notification' in window && Notification.permission === 'default'){
-  setTimeout(()=>Notification.requestPermission(), 3000);
+// Request notifications early
+setTimeout(()=>{if('Notification' in window&&Notification.permission==='default')Notification.requestPermission()},2000);
+
+// ═══════════════════════════════════════════════════════════════
+// PROACTIVE INTELLIGENCE ENGINE
+// ═══════════════════════════════════════════════════════════════
+
+function getTimeCtx(){
+  const d=new Date(),h=d.getHours(),day=d.getDay(),min=d.getMinutes();
+  const hhmm=h*100+min;
+  let period,greeting,icon;
+  if(h<6){period='late_night';greeting='Burning the midnight oil';icon='\uD83C\uDF19'}
+  else if(h<9){period='early_morning';greeting='Good morning';icon='\u2600\uFE0F'}
+  else if(h<12){period='morning';greeting='Good morning';icon='\uD83C\uDF24\uFE0F'}
+  else if(h<14){period='lunch';greeting='Good afternoon';icon='\u2600\uFE0F'}
+  else if(h<17){period='afternoon';greeting='Good afternoon';icon='\uD83C\uDF24\uFE0F'}
+  else if(h<20){period='evening';greeting='Good evening';icon='\uD83C\uDF06'}
+  else if(h<22){period='night';greeting='Good evening';icon='\uD83C\uDF03'}
+  else{period='late_night';greeting='Working late';icon='\uD83C\uDF19'}
+  const isWeekend=day===0||day===6;
+  return {period,greeting,icon,h,min,hhmm,day,isWeekend};
 }
 
-// ── Quick Actions ─────────────────────────────────────────────
-const QA = [
-  {icon:'📰',name:'News Briefing',desc:'World + India + tech',prompt:'Give me a full briefing on today\'s top news worldwide and in India — politics, tech, markets, and anything important.'},
-  {icon:'📊',name:'Market Pulse',desc:'Nifty, BankNifty, global',prompt:'Get me real-time Indian stock market data — Nifty 50, BankNifty, Sensex levels, top gainers/losers, and key market-moving news today.'},
-  {icon:'🌐',name:'Web Search',desc:'Find anything',prompt:'Search the web for: ',prefill:true},
-  {icon:'💻',name:'Build Code',desc:'Any language or app',prompt:'Build me: ',prefill:true},
-  {icon:'✍️',name:'Write Content',desc:'Articles, emails, copy',prompt:'Write: ',prefill:true},
-  {icon:'🧠',name:'Deep Research',desc:'Thorough analysis',prompt:'Do a deep research dive on: ',prefill:true},
-  {icon:'🎯',name:'Strategy Plan',desc:'Business & personal',prompt:'Create a detailed strategic plan for: ',prefill:true},
-  {icon:'📱',name:'App Ideas',desc:'Product & design',prompt:'Design a detailed product concept and feature set for: ',prefill:true},
-];
+function getProactiveSuggestion(){
+  const tc=getTimeCtx();
+  const tops=Object.entries(profile.topics||{}).sort((a,b)=>b[1]-a[1]).slice(0,5).map(([t])=>t);
+  const hourUsage=profile.hours||{};
+  const pool=[];
 
-// ── Time Awareness ────────────────────────────────────────────
-function getTimeContext(){
-  const h = new Date().getHours();
-  if(h < 6) return {period:'night',greeting:'Working late',icon:'🌙'};
-  if(h < 12) return {period:'morning',greeting:'Good morning',icon:'☀️'};
-  if(h < 17) return {period:'afternoon',greeting:'Good afternoon',icon:'🌤️'};
-  if(h < 21) return {period:'evening',greeting:'Good evening',icon:'🌆'};
-  return {period:'night',greeting:'Evening',icon:'🌙'};
-}
+  // ── TIME-BASED CONTEXTUAL SUGGESTIONS ──
+  // These simulate what a real personal agent would suggest
 
-function getSmartSuggestions(){
-  const tc = getTimeContext();
-  const topTopics = Object.entries(profile.topics||{}).sort((a,b)=>b[1]-a[1]).slice(0,5).map(([t])=>t);
-  
-  const base = {
-    morning: [
-      {text:"Start your day with a full world + India news briefing?", btn:"📰 Get Briefing", prompt:"Give me a comprehensive morning briefing — world news, India news, tech headlines, market pre-open analysis, and anything important I should know today."},
-      {text:"Check the markets before the opening bell?", btn:"📊 Market Brief", prompt:"Give me pre-market analysis for Indian markets today — SGX Nifty, Asian markets, global cues, FII/DII data, and key events that could move BankNifty."},
-      {text:"Plan your day — what's the most important thing to get done?", btn:"🎯 Plan My Day", prompt:"Help me plan my day productively. Ask me what I need to accomplish and create a prioritized schedule."}
-    ],
-    afternoon: [
-      {text:"Markets are in session — want a live pulse check?", btn:"📊 Live Markets", prompt:"Get me the latest Indian stock market data right now — Nifty 50, BankNifty, Sensex current levels, intraday movers, and any breaking market news."},
-      {text:"Need research on something? I can do a deep dive.", btn:"🧠 Research", prompt:"Do a deep research dive on: ", prefill:true},
-      {text:"Productivity boost — want me to draft, build, or solve something?", btn:"💻 Build Something", prompt:"Build me: ", prefill:true}
-    ],
-    evening: [
-      {text:"Here's what happened today — want a full day recap?", btn:"📰 Day Recap", prompt:"Give me a comprehensive end-of-day recap — what were the biggest news stories today globally and in India? How did Indian markets close? Any major tech or business developments?"},
-      {text:"Wind down — want movie recommendations or something creative?", btn:"🎬 Entertain Me", prompt:"Recommend 3 films I should watch tonight across different genres and languages — something critically acclaimed, thought-provoking, or visually stunning. Include a brief reason for each pick."},
-      {text:"Plan tomorrow — set yourself up for a strong start?", btn:"🎯 Plan Tomorrow", prompt:"Help me plan tomorrow. Ask me what I need to accomplish and create a strategic day plan."}
-    ],
-    night: [
-      {text:"Still working? I can help push through tasks faster.", btn:"⚡ Let's Go", prompt:"Help me be more productive right now. What task should I focus on?", prefill:true},
-      {text:"Want a quick summary of what we accomplished today?", btn:"📋 Today's Summary", prompt:"Summarize everything I've asked you today and the key outcomes from our interactions."},
-      {text:"Need a late-night research rabbit hole?", btn:"🧠 Deep Dive", prompt:"Do a deep research dive on: ", prefill:true}
-    ]
-  };
-
-  let suggestions = base[tc.period] || base.morning;
-  
-  // Add topic-aware suggestion if we have history
-  if(topTopics.length > 0){
-    const t = topTopics[Math.floor(Math.random()*Math.min(3,topTopics.length))];
-    suggestions.push({
-      text:`I noticed you're interested in "${t}" — want me to find the latest on this?`,
-      btn:`🔍 Latest on ${t}`,
-      prompt:`Search for and give me the very latest news, developments, and updates on: ${t}`
-    });
+  // MORNING ROUTINES (6-9 AM)
+  if(tc.period==='early_morning'){
+    pool.push({text:"Rise and shine! Want a full morning briefing \u2014 world news, India headlines, and what the markets look like before open?",btn:"\uD83D\uDCF0 Morning Briefing",prompt:"Give me a comprehensive morning briefing: top world news, India news, tech headlines, and pre-market analysis for Indian markets including SGX Nifty and global cues."});
+    pool.push({text:"Time for your morning workout? Should I set a timer and suggest a routine based on your energy level?",btn:"\uD83C\uDFCB\uFE0F Workout Time",prompt:"Create a 30-minute morning workout routine for me. Include warm-up, main exercises, and cool-down. Give me a timer-friendly format."});
+    pool.push({text:"Planning your day? Let me help you prioritize and block time for what matters most.",btn:"\uD83C\uDFAF Plan My Day",prompt:"Help me plan my day. Ask me what I need to accomplish and create a prioritized schedule with time blocks."});
   }
-  
-  return {context:tc, suggestions};
-}
 
-// ═══════════════════════════════════════════════════════════════
-// BOOT SEQUENCE
-// ═══════════════════════════════════════════════════════════════
-const BOOT_LINES = [
-  'THESEUS AGENT OS v2.0',
-  'Neural pathways: INITIALIZED',
-  'Persistent memory: LOADED',
-  'Proactive engine: ARMED',
-  'Web search: ONLINE',
-  'Content engine: ONLINE',
-  'Retry cascade: 3-LAYER FALLBACK',
-  'Context engine: TIME-AWARE',
-  'Check-in scheduler: ACTIVE',
-  '━━━ THESEUS IS ALIVE ━━━'
-];
-
-let bIdx=0;
-function bTick(){
-  if(bIdx<BOOT_LINES.length){
-    const el=document.createElement('div');
-    el.className='b-line'+(bIdx===BOOT_LINES.length-1?' hl':'');
-    el.textContent=BOOT_LINES[bIdx];el.style.animationDelay=bIdx*0.03+'s';
-    document.getElementById('bTerm').appendChild(el);bIdx++;setTimeout(bTick,160);
-  } else {
-    const c=document.createElement('span');c.className='b-cursor';c.textContent='█';
-    document.getElementById('bTerm').appendChild(c);
-    setTimeout(finishBoot,600);
+  // MID-MORNING WORK (9-12)
+  if(tc.period==='morning'){
+    pool.push({text:"Markets are open! Want a live pulse on Nifty, BankNifty, and top movers?",btn:"\uD83D\uDCC8 Market Pulse",prompt:"Get me live Indian stock market data right now \u2014 Nifty 50, BankNifty, Sensex levels, top intraday gainers/losers, and any market-moving news."});
+    pool.push({text:"Need to research something for work? I can do a deep dive while you focus on other things.",btn:"\uD83E\uDDE0 Deep Research",prompt:"Do a deep research dive on: ",pf:true});
+    pool.push({text:"Should I draft that email or document you have been putting off?",btn:"\u270D\uFE0F Draft Something",prompt:"Help me write: ",pf:true});
+    if(tc.hhmm>=1000&&tc.hhmm<=1100){
+      pool.push({text:"Mid-morning break? Quick chai/coffee time \u2014 want me to order something on Swiggy or Zomato?",btn:"\u2615 Order a Drink",prompt:"I want to order a coffee/chai. Suggest the best rated cafes near me on Swiggy or Zomato that deliver quickly. What should I try today?"});
+    }
   }
+
+  // LUNCH TIME (12-2 PM)
+  if(tc.period==='lunch'){
+    pool.push({text:"Lunch time! Should I help you decide what to eat? I can check Swiggy and Zomato for highly rated options near you.",btn:"\uD83C\uDF5B Order Lunch",prompt:"I am looking for lunch. Suggest 5 highly rated restaurants on Swiggy/Zomato in Pune that deliver fast. Include cuisine type, ratings, and estimated delivery time. Mix healthy options with comfort food."});
+    pool.push({text:"Quick market check while you eat? BankNifty might have moved since morning.",btn:"\uD83D\uDCC8 Market Update",prompt:"Give me a quick midday market update \u2014 where are Nifty and BankNifty right now compared to open? Any intraday trend changes or major news?"});
+    pool.push({text:"Take a mental break \u2014 want a quick 5-minute read on something interesting?",btn:"\uD83D\uDCDA Quick Read",prompt:"Give me a fascinating 5-minute read on something unexpected \u2014 a mind-blowing scientific discovery, a piece of little-known history, or an interesting tech development. Make it genuinely engaging."});
+  }
+
+  // AFTERNOON WORK (2-5 PM)
+  if(tc.period==='afternoon'){
+    pool.push({text:"Afternoon slump? Let me help you power through the rest of the day. What is the most important task left?",btn:"\u26A1 Power Through",prompt:"Help me be productive for the rest of today. What should I focus on?",pf:true});
+    pool.push({text:"Need me to build or code something? I can handle any language, framework, or project.",btn:"\uD83D\uDCBB Build Code",prompt:"Build me: ",pf:true});
+    pool.push({text:"How about a strategy session? Business planning, content strategy, or career moves \u2014 I am ready.",btn:"\uD83C\uDFAF Strategize",prompt:"Create a detailed strategic plan for: ",pf:true});
+    if(tc.hhmm>=1530&&tc.hhmm<=1630){
+      pool.push({text:"Markets closing soon. Want a pre-close summary and any positions to watch?",btn:"\uD83D\uDCC9 Pre-Close Brief",prompt:"Indian markets are about to close. Give me a pre-closing summary: where Nifty and BankNifty stand, day high/low, FII/DII activity, and any last-hour movers."});
+    }
+  }
+
+  // EVENING (5-8 PM)
+  if(tc.period==='evening'){
+    pool.push({text:"End of day! Want a full recap \u2014 what happened in the world, how markets closed, and top tech news?",btn:"\uD83D\uDCF0 Day Recap",prompt:"Give me a comprehensive end-of-day recap: biggest news stories globally and in India today, how Indian markets closed (Nifty, BankNifty, Sensex), and any major tech or business developments."});
+    pool.push({text:"Thinking about dinner? Should I help you decide \u2014 cook at home or order in?",btn:"\uD83C\uDF7D\uFE0F Dinner Ideas",prompt:"Help me with dinner. Suggest 3 options: one quick home recipe I can make in 20 min, one healthy Swiggy/Zomato order in Pune, and one treat-yourself option. Include cuisine, prep time or delivery estimate."});
+    pool.push({text:"Evening winddown \u2014 want me to find a great movie or show to watch tonight?",btn:"\uD83C\uDFAC Movie Pick",prompt:"Recommend 3 films or shows I should watch tonight. Mix languages \u2014 include at least one non-English pick. For each, tell me genre, runtime, where to stream, and one compelling reason to watch it."});
+    if(tc.hhmm>=1830&&tc.hhmm<=1930){
+      pool.push({text:"Getting warm? Should I remind you to switch on the AC or adjust the fan speed?",btn:"\u2744\uFE0F Climate Check",prompt:"It is evening and might be getting warm. Give me the current temperature in Pune and suggest ideal AC settings for comfort and energy efficiency."});
+    }
+  }
+
+  // NIGHT (8-10 PM)
+  if(tc.period==='night'){
+    pool.push({text:"Winding down? Looking for dinner or a late snack? I can check what delivers at this hour.",btn:"\uD83C\uDF5C Late Dinner",prompt:"I need a late dinner/snack delivered. What are the best rated options available right now on Swiggy in Pune? Filter for places still open and delivering."});
+    pool.push({text:"Movie time! Want me to pick something perfect for tonight based on your mood?",btn:"\uD83C\uDFAC Movie Night",prompt:"Pick me one perfect movie for tonight. Something I probably have not seen. Any language. Tell me exactly why this one, and where to stream it."});
+    pool.push({text:"Want to plan tomorrow before you sleep? Get ahead of the day.",btn:"\uD83D\uDDD3\uFE0F Plan Tomorrow",prompt:"Help me plan tomorrow. Create a structured day plan with time blocks, priorities, and reminders. Ask me what I need to accomplish."});
+    if(tc.hhmm>=2100){
+      pool.push({text:"Getting late \u2014 should I set an alarm or bedtime reminder for you?",btn:"\u23F0 Set Alarm",prompt:"Suggest an optimal wake-up time based on sleeping now, and create a bedtime routine to wind down in the next 30 minutes."});
+    }
+  }
+
+  // LATE NIGHT (10 PM - 6 AM)
+  if(tc.period==='late_night'){
+    pool.push({text:"Still up! Need help pushing through something? I can code, research, or write anything you need.",btn:"\u26A1 Night Owl Mode",prompt:"I am working late. Help me be productive: ",pf:true});
+    pool.push({text:"Late night rabbit hole? Pick a topic and I will do a deep dive.",btn:"\uD83E\uDDE0 Deep Dive",prompt:"Do a fascinating deep research dive on: ",pf:true});
+    pool.push({text:"Cannot sleep? Want something calming \u2014 a story, ambient recommendations, or a meditation guide?",btn:"\uD83C\uDF19 Wind Down",prompt:"I cannot sleep. Give me something calming \u2014 either a short soothing story, a guided breathing exercise, or recommend ambient sounds/music for sleep."});
+  }
+
+  // WEEKEND SPECIALS
+  if(tc.isWeekend){
+    pool.push({text:"It is the weekend! Want me to plan something fun \u2014 restaurants, movies, outings, or a day trip?",btn:"\uD83C\uDF89 Weekend Plans",prompt:"Help me plan a fun weekend. Suggest interesting things to do in Pune this weekend \u2014 restaurants, events, movies, outdoor activities, or day trips."});
+  }
+
+  // ── LEARNED BEHAVIOR SUGGESTIONS ──
+  if(tops.length>0){
+    const t=tops[Math.floor(Math.random()*Math.min(3,tops.length))];
+    pool.push({text:"You have been tracking \""+t+"\" \u2014 want me to find the very latest updates on this?",btn:"\uD83D\uDD0D Latest on "+t,prompt:"Search for and give me the latest news, developments, and updates on: "+t});
+  }
+
+  // Track which hours user is most active
+  const hKey=String(tc.h);
+  if(!profile.hours)profile.hours={};
+  profile.hours[hKey]=(profile.hours[hKey]||0)+1;
+  LS.set('profile',profile);
+
+  // Pick a random suggestion from the pool
+  const pick=pool[Math.floor(Math.random()*pool.length)];
+  currentSuggestion=pick;
+  return {tc,suggestion:pick,poolSize:pool.length};
 }
 
-function finishBoot(){
-  document.getElementById('boot').classList.add('out');
-  setTimeout(()=>{document.getElementById('boot').style.display='none'},700);
-  if(!API_KEY){document.getElementById('keyModal').classList.add('show')}
-  else{showApp()}
+// ═══════════════════════════════════════════════════════════════
+// BOOT
+// ═══════════════════════════════════════════════════════════════
+const BL=['THESEUS AGENT OS v2.1','Neural pathways: INITIALIZED','Persistent memory: LOADED','Proactive intelligence: ARMED','Behavior learning: ACTIVE','Web search: ONLINE','Retry cascade: 3-LAYER FALLBACK','Context engine: TIME+BEHAVIOR AWARE','App integration: READY','\u2501\u2501\u2501 THESEUS IS ALIVE \u2501\u2501\u2501'];
+let bi=0;
+function bT(){
+  if(bi<BL.length){const e=document.createElement('div');e.className='b-line'+(bi===BL.length-1?' hl':'');e.textContent=BL[bi];document.getElementById('bTerm').appendChild(e);bi++;setTimeout(bT,150)}
+  else{const c=document.createElement('span');c.className='b-cursor';c.textContent='\u2588';document.getElementById('bTerm').appendChild(c);setTimeout(fBoot,500)}
 }
+function fBoot(){document.getElementById('boot').classList.add('out');setTimeout(()=>{document.getElementById('boot').style.display='none'},700);if(!API_KEY){document.getElementById('keyModal').classList.add('show')}else{startApp()}}
 
-// ── Key Setup ─────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded',()=>{
-  bTick();
+  bT();
   const ki=document.getElementById('keyIn');
   ki.addEventListener('input',()=>{document.getElementById('keyGo').disabled=ki.value.trim().length<10});
-  document.getElementById('keyGo').addEventListener('click',activateKey);
-  document.addEventListener('keydown',e=>{
-    if(e.key==='Enter'&&!e.shiftKey&&document.activeElement===document.getElementById('inp')){
-      const v=document.getElementById('inp').value.trim();
-      if(v&&!running){e.preventDefault();handleSend()}
-    }
-  });
+  document.getElementById('keyGo').addEventListener('click',actKey);
+  document.addEventListener('keydown',e=>{if(e.key==='Enter'&&!e.shiftKey&&document.activeElement===document.getElementById('inp')){const v=document.getElementById('inp').value.trim();if(v&&!running){e.preventDefault();doSend()}}});
 });
 
-function activateKey(){
-  const k=document.getElementById('keyIn').value.trim();
-  if(k.length<10)return;
-  API_KEY=k;S.set('key',k);
-  document.getElementById('keyModal').classList.remove('show');
-  showApp();
-}
+function actKey(){const k=document.getElementById('keyIn').value.trim();if(k.length<10)return;API_KEY=k;LS.set('key',k);document.getElementById('keyModal').classList.remove('show');startApp()}
+function chgKey(){togSettings();document.getElementById('keyIn').value='';document.getElementById('keyModal').classList.add('show')}
 
-function changeKey(){
-  toggleSettings();
-  document.getElementById('keyIn').value='';
-  document.getElementById('keyModal').classList.add('show');
-}
-
-function showApp(){
+function startApp(){
   document.getElementById('app').classList.add('on');
-  document.getElementById('keyDisplay').textContent=API_KEY.substring(0,8)+'•••••••';
-  loadSettings();
-  renderDashboard();
-  startCheckinTimer();
+  document.getElementById('keyDisp').textContent=API_KEY.substring(0,8)+'\u2022\u2022\u2022\u2022';
+  loadCfg();
+  renderDash();
+  // Start the master timer loop (1-second tick)
+  nextCheckin=Date.now()+getIntMs();
+  setInterval(masterTick,1000);
 }
 
 // ═══════════════════════════════════════════════════════════════
-// DASHBOARD RENDERING
+// MASTER TIMER — 1-SECOND TICK (never misses)
 // ═══════════════════════════════════════════════════════════════
-function renderDashboard(){
-  const {context,suggestions} = getSmartSuggestions();
-  const pick = suggestions[Math.floor(Math.random()*Math.min(3,suggestions.length))];
-  const dash = document.getElementById('viewDash');
-  
-  let html = '';
-  
-  // Greeting
-  html += `<div class="greet">
-    <div class="greet-hi">${context.icon} ${context.period.toUpperCase()}</div>
-    <div class="greet-msg">${context.greeting}.<br><span>THESEUS is ready.</span></div>
-  </div>`;
+function getIntMs(){return cfg.interval*(cfg.unit==='hr'?3600000:60000)}
 
-  // Proactive suggestion card
-  html += `<div class="proactive-card">
-    <div class="pc-head"><div class="pc-dot"></div><span class="pc-label">Agent Suggestion</span></div>
-    <div class="pc-msg">${pick.text}</div>
-    <div class="pc-actions">
-      <button class="pc-btn primary" onclick="${pick.prefill?`prefillInput('${esc(pick.prompt)}')`:`execTask('${esc(pick.prompt)}')`}">${pick.btn}</button>
-      <button class="pc-btn" onclick="refreshSuggestion()">↻ Different idea</button>
+function masterTick(){
+  // Update countdown display
+  const el=document.getElementById('cd');
+  if(el&&nextCheckin){
+    const diff=Math.max(0,nextCheckin-Date.now());
+    const m=Math.floor(diff/60000);
+    const s=Math.floor((diff%60000)/1000);
+    el.textContent=String(m).padStart(2,'0')+':'+String(s).padStart(2,'0');
+  }
+
+  // CHECK-IN TRIGGER
+  if(Date.now()>=nextCheckin&&!running){
+    nextCheckin=Date.now()+getIntMs(); // Reset IMMEDIATELY
+    doCheckin();
+  }
+}
+
+function doCheckin(){
+  const {tc,suggestion}=getProactiveSuggestion();
+
+  // 1. Show toast notification on screen
+  showToast(suggestion);
+
+  // 2. Refresh dashboard with new suggestion
+  renderDash();
+
+  // 3. Pulse the header logo
+  const logo=document.querySelector('.hdr-logo');
+  if(logo){logo.style.animation='none';logo.offsetHeight;logo.style.animation='heartbeat .6s ease 4'}
+
+  // 4. Browser notification (works even when tab is background)
+  if('Notification' in window&&Notification.permission==='granted'){
+    try{new Notification('THESEUS Agent',{body:suggestion.text,tag:'theseus-checkin',renotify:true})}catch{}
+  }
+
+  // 5. Vibrate if available
+  if(navigator.vibrate)navigator.vibrate([100,50,100]);
+}
+
+// ═══════════════════════════════════════════════════════════════
+// TOAST NOTIFICATIONS
+// ═══════════════════════════════════════════════════════════════
+function showToast(suggestion){
+  // Remove existing toast
+  const zone=document.getElementById('toastZone');
+  zone.innerHTML='';
+
+  const toast=document.createElement('div');
+  toast.className='toast';
+  toast.innerHTML=`
+    <div class="t-pulse"></div>
+    <div class="t-body">
+      <div class="t-title">\u0398 Agent Check-in</div>
+      <div class="t-msg">${escH(suggestion.text)}</div>
+      <div class="t-actions">
+        <button class="t-btn primary" id="toastAct">${escH(suggestion.btn)}</button>
+        <button class="t-btn secondary" onclick="dismissToast()">Later</button>
+      </div>
     </div>
-  </div>`;
+    <button class="t-close" onclick="dismissToast()">&times;</button>
+  `;
+  zone.appendChild(toast);
+
+  // Wire up the action button safely
+  document.getElementById('toastAct').addEventListener('click',()=>{
+    dismissToast();
+    if(suggestion.pf){prefill(suggestion.prompt)}
+    else{execTask(suggestion.prompt)}
+  });
+
+  // Auto-dismiss after 15 seconds
+  setTimeout(()=>{if(zone.contains(toast))dismissToast()},15000);
+}
+
+function dismissToast(){
+  const zone=document.getElementById('toastZone');
+  const t=zone.querySelector('.toast');
+  if(t){t.classList.add('out');setTimeout(()=>{zone.innerHTML=''},300)}
+}
+
+// ═══════════════════════════════════════════════════════════════
+// DASHBOARD
+// ═══════════════════════════════════════════════════════════════
+function renderDash(){
+  const {tc,suggestion,poolSize}=getProactiveSuggestion();
+  const dash=document.getElementById('viewDash');
+  dash.innerHTML=''; // Clear first
+
+  // Greeting
+  const greet=document.createElement('div');greet.className='greet';
+  greet.innerHTML=`<div class="greet-hi">${tc.icon} ${tc.period.replace('_',' ').toUpperCase()}</div><div class="greet-msg">${tc.greeting}.<br><span>THESEUS is ready.</span></div>`;
+  dash.appendChild(greet);
+
+  // Proactive suggestion card — built with DOM (no innerHTML onclick issues)
+  const pc=document.createElement('div');pc.className='pc';
+  const pcHead=document.createElement('div');pcHead.className='pc-hd';
+  pcHead.innerHTML='<div class="d"></div><span class="l">Agent Suggestion</span>';
+  pc.appendChild(pcHead);
+
+  const pcMsg=document.createElement('div');pcMsg.className='pc-msg';
+  pcMsg.textContent=suggestion.text;
+  pc.appendChild(pcMsg);
+
+  const pcActs=document.createElement('div');pcActs.className='pc-acts';
+
+  const priBtn=document.createElement('button');priBtn.className='pc-b pri';
+  priBtn.textContent=suggestion.btn;
+  priBtn.addEventListener('click',()=>{
+    if(suggestion.pf){prefill(suggestion.prompt)}
+    else{execTask(suggestion.prompt)}
+  });
+  pcActs.appendChild(priBtn);
+
+  const secBtn=document.createElement('button');secBtn.className='pc-b sec';
+  secBtn.textContent='\u21BB Different idea';
+  secBtn.addEventListener('click',()=>{renderDash()});
+  pcActs.appendChild(secBtn);
+
+  pc.appendChild(pcActs);
+  dash.appendChild(pc);
 
   // Timer bar
-  html += `<div class="timer-bar">
-    <span class="t-icon">⏱️</span>
-    <div class="t-text">
-      <div class="t-label">Next check-in</div>
-      <div class="t-countdown" id="countdown">--:--</div>
-    </div>
-    <button class="t-cfg" onclick="toggleSettings()">Configure</button>
-  </div>`;
+  const tb=document.createElement('div');tb.className='tb';
+  tb.innerHTML=`<span class="ti">\u23F1\uFE0F</span><div class="tt"><div class="tl">Next check-in</div><div class="tc" id="cd">--:--</div></div>`;
+  const cfgBtn=document.createElement('button');cfgBtn.className='tcfg';cfgBtn.textContent='Configure';
+  cfgBtn.addEventListener('click',togSettings);
+  tb.appendChild(cfgBtn);
+  dash.appendChild(tb);
 
   // Quick actions
-  html += `<div class="qa-title">Quick Actions</div><div class="qa-grid">`;
+  const qaTitle=document.createElement('div');qaTitle.className='qa-t';qaTitle.textContent='QUICK ACTIONS';
+  dash.appendChild(qaTitle);
+
+  const qaGrid=document.createElement('div');qaGrid.className='qa-g';
   QA.forEach(q=>{
-    const onclick = q.prefill
-      ? `prefillInput('${esc(q.prompt)}')`
-      : `execTask('${esc(q.prompt)}')`;
-    html += `<button class="qa-card" onclick="${onclick}">
-      <div class="qa-icon">${q.icon}</div>
-      <div><div class="qa-name">${q.name}</div><div class="qa-desc">${q.desc}</div></div>
-    </button>`;
+    const card=document.createElement('button');card.className='qa-c';
+    card.innerHTML=`<div class="qi">${q.icon}</div><div><div class="qn">${q.name}</div><div class="qd">${q.desc}</div></div>`;
+    card.addEventListener('click',()=>{if(q.pf){prefill(q.prompt)}else{execTask(q.prompt)}});
+    qaGrid.appendChild(card);
   });
-  html += '</div>';
+  dash.appendChild(qaGrid);
 
   // Stats
-  html += `<div class="stats-strip">
-    <div class="stat-card"><div class="s-val" style="color:var(--cyan)">${profile.taskCount}</div><div class="s-label">Tasks</div></div>
-    <div class="stat-card"><div class="s-val" style="color:var(--green)">${profile.taskCount?Math.round((profile.successCount/profile.taskCount)*100):100}%</div><div class="s-label">Success</div></div>
-    <div class="stat-card"><div class="s-val" style="color:var(--amber)">${history.length}</div><div class="s-label">Memory</div></div>
-  </div>`;
-
-  dash.innerHTML = html;
-  updateCountdown();
+  const ss=document.createElement('div');ss.className='ss';
+  const sr=profile.taskCount?Math.round(profile.successCount/profile.taskCount*100):100;
+  ss.innerHTML=`<div class="sc"><div class="sv" style="color:var(--cyan)">${profile.taskCount}</div><div class="sl">Tasks</div></div><div class="sc"><div class="sv" style="color:var(--green)">${sr}%</div><div class="sl">Success</div></div><div class="sc"><div class="sv" style="color:var(--amber)">${poolSize}</div><div class="sl">Ideas Ready</div></div>`;
+  dash.appendChild(ss);
 }
 
-function refreshSuggestion(){renderDashboard()}
-
-// ═══════════════════════════════════════════════════════════════
-// PROACTIVE CHECK-IN SYSTEM
-// ═══════════════════════════════════════════════════════════════
-function getIntervalMs(){
-  return settings.interval * (settings.unit==='hr'?3600000:60000);
-}
-
-function startCheckinTimer(){
-  clearInterval(checkinTimer);
-  clearInterval(countdownTimer);
-  nextCheckin = Date.now() + getIntervalMs();
-  
-  checkinTimer = setInterval(()=>{
-    triggerCheckin();
-    nextCheckin = Date.now() + getIntervalMs();
-  }, getIntervalMs());
-  
-  countdownTimer = setInterval(updateCountdown, 1000);
-}
-
-function updateCountdown(){
-  const el = document.getElementById('countdown');
-  if(!el||!nextCheckin) return;
-  const diff = Math.max(0, nextCheckin - Date.now());
-  const m = Math.floor(diff/60000);
-  const s = Math.floor((diff%60000)/1000);
-  el.textContent = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
-}
-
-function triggerCheckin(){
-  // Only trigger if user is on dashboard and not in a task
-  if(running) return;
-  
-  const {context,suggestions} = getSmartSuggestions();
-  const pick = suggestions[Math.floor(Math.random()*suggestions.length)];
-  
-  // Show notification-style card on dashboard
-  if(document.getElementById('viewDash').classList.contains('active')){
-    renderDashboard();
-    // Pulse the header to draw attention
-    const logo = document.querySelector('.hdr-logo');
-    logo.style.animation = 'heartbeat .6s ease 3';
-    setTimeout(()=>{logo.style.animation=''},2000);
-  }
-  
-  // Also send notification if browser supports it
-  if('Notification' in window && Notification.permission === 'granted'){
-    new Notification('THESEUS Agent',{body:pick.text,icon:'data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><text y=".9em" font-size="90">Θ</text></svg>'});
-  } else if('Notification' in window && Notification.permission !== 'denied'){
-    Notification.requestPermission();
-  }
-}
+const QA=[
+  {icon:'\uD83D\uDCF0',name:'News Briefing',desc:'World + India + tech',prompt:'Give me a full briefing on today\'s top news worldwide and in India \u2014 politics, tech, markets, and anything important.'},
+  {icon:'\uD83D\uDCC8',name:'Market Pulse',desc:'Nifty, BankNifty, global',prompt:'Get me real-time Indian stock market data \u2014 Nifty 50, BankNifty, Sensex levels, top gainers/losers, and key market-moving news.'},
+  {icon:'\uD83C\uDF10',name:'Web Search',desc:'Find anything',prompt:'Search the web for: ',pf:true},
+  {icon:'\uD83D\uDCBB',name:'Build Code',desc:'Any language or app',prompt:'Build me: ',pf:true},
+  {icon:'\u270D\uFE0F',name:'Write Content',desc:'Articles, emails, copy',prompt:'Write: ',pf:true},
+  {icon:'\uD83E\uDDE0',name:'Deep Research',desc:'Thorough analysis',prompt:'Do a deep research dive on: ',pf:true},
+  {icon:'\uD83C\uDFAF',name:'Strategy Plan',desc:'Business & personal',prompt:'Create a detailed strategic plan for: ',pf:true},
+  {icon:'\uD83D\uDCF1',name:'App Ideas',desc:'Product & design',prompt:'Design a detailed product concept for: ',pf:true},
+];
 
 // ═══════════════════════════════════════════════════════════════
 // SETTINGS
 // ═══════════════════════════════════════════════════════════════
-function loadSettings(){
-  document.getElementById('cfgInterval').value = settings.interval;
-  document.getElementById('cfgUnit').value = settings.unit;
-  document.getElementById('cfgTone').value = settings.tone || 'professional';
-}
-
-function saveSettings(){
-  settings.interval = parseInt(document.getElementById('cfgInterval').value)||10;
-  settings.unit = document.getElementById('cfgUnit').value;
-  settings.tone = document.getElementById('cfgTone').value;
-  S.set('settings',settings);
-  startCheckinTimer();
-  renderDashboard();
-}
-
-function toggleSettings(){
-  document.getElementById('settingsOverlay').classList.toggle('show');
-}
-
-function clearAll(){
-  S.del('profile');S.del('history');S.del('settings');
-  profile={taskCount:0,successCount:0,topics:{},created:Date.now()};
-  history=[];settings={interval:10,unit:'min',tone:'professional'};
-  loadSettings();renderDashboard();toggleSettings();
-}
+function loadCfg(){document.getElementById('cfgInt').value=cfg.interval;document.getElementById('cfgUnit').value=cfg.unit;document.getElementById('cfgTone').value=cfg.tone||'sharp'}
+function saveCfg(){cfg.interval=parseInt(document.getElementById('cfgInt').value)||10;cfg.unit=document.getElementById('cfgUnit').value;cfg.tone=document.getElementById('cfgTone').value;LS.set('cfg',cfg);nextCheckin=Date.now()+getIntMs();renderDash()}
+function togSettings(){document.getElementById('settingsOv').classList.toggle('show')}
+function clearAll(){LS.del('profile');LS.del('history');LS.del('cfg');profile={taskCount:0,successCount:0,topics:{},hours:{},days:{},created:Date.now()};history=[];cfg={interval:10,unit:'min',tone:'sharp'};loadCfg();renderDash();togSettings()}
 
 // ═══════════════════════════════════════════════════════════════
 // VIEW MANAGEMENT
 // ═══════════════════════════════════════════════════════════════
-function showView(name){
-  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
-  document.getElementById(name==='dash'?'viewDash':'viewChat').classList.add('active');
-  if(name==='dash') renderDashboard();
-}
+function showView(n){document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));document.getElementById(n==='dash'?'viewDash':'viewChat').classList.add('active');if(n==='dash')renderDash()}
 
 // ═══════════════════════════════════════════════════════════════
-// CHAT ENGINE
+// CHAT
 // ═══════════════════════════════════════════════════════════════
-function addUserBubble(text){
-  const d=document.createElement('div');d.className='msg-u';
-  d.innerHTML=`<div class="bbl-u">${esc(text)}</div>`;
-  document.getElementById('chatMsgs').appendChild(d);
-  scrollChat();
-}
+function addUMsg(t){const d=document.createElement('div');d.className='msg-u';d.innerHTML='<div class="bbl-u">'+escH(t)+'</div>';document.getElementById('chatMsgs').appendChild(d);scrl()}
 
-function addAgentBubble(data, attempts){
+function addAMsg(data,att){
   const d=document.createElement('div');d.className='msg-a';
   let h='<div class="bbl-a">';
-  
   h+='<div class="chips">';
   const ok=data.status==='complete';
-  h+=`<span class="chip ${ok?'chip-ok':'chip-warn'}">${ok?'✓':'⚠'} ${(data.status||'complete').toUpperCase().replace('_',' ')}</span>`;
-  if(attempts>1) h+=`<span class="chip chip-retry">⟳ ${attempts} attempts</span>`;
-  if(data.category) h+=`<span class="chip chip-cat">${data.category}</span>`;
+  h+='<span class="chip '+(ok?'chip-ok':'chip-warn')+'">'+(ok?'\u2713':'\u26A0')+' '+(data.status||'complete').toUpperCase().replace('_',' ')+'</span>';
+  if(att>1)h+='<span class="chip chip-retry">\u21BB '+att+' attempts</span>';
+  if(data.category)h+='<span class="chip chip-cat">'+escH(data.category)+'</span>';
   h+='</div>';
-  
-  if(data.thinking) h+=`<div class="think-box"><div class="lbl">Agent Reasoning</div><div class="val">${esc(data.thinking)}</div></div>`;
-  
-  if(data.plan&&data.plan.length>1){
-    h+='<div class="plan-box"><div class="lbl">Execution Plan</div>';
-    data.plan.forEach(s=>{h+=`<div class="plan-step"><span class="dot">✓</span><span class="txt">${esc(s)}</span></div>`});
-    h+='</div>';
-  }
-  
-  h+=`<div class="resp-body">${renderMD(data.response||'')}</div>`;
-  
+  if(data.thinking)h+='<div class="tbox"><div class="lb">Agent Reasoning</div><div class="vl">'+escH(data.thinking)+'</div></div>';
+  if(data.plan&&data.plan.length>1){h+='<div class="pbox"><div class="lb">Execution Plan</div>';data.plan.forEach(s=>{h+='<div class="ps"><span class="dt">\u2713</span><span class="tx">'+escH(s)+'</span></div>'});h+='</div>'}
+  h+='<div class="rb">'+renderMD(data.response||'')+'</div>';
+  h+='</div>';
+  d.innerHTML=h;
+
+  // Add follow-up action buttons with safe event handlers
   if(data.actions&&data.actions.length){
-    h+='<div class="follow-row">';
-    data.actions.forEach((a,i)=>{
-      const ic=a.type==='search'?'🔍':a.type==='create'?'🛠':a.type==='analyze'?'📊':'→';
-      const aIdx=window._tActions.length;
-      window._tActions.push(a.prompt||'');
-      h+=`<button class="follow-btn" onclick="execTask(window._tActions[${aIdx}])">${ic} ${esc(a.label)}</button>`;
+    const frow=document.createElement('div');frow.className='frow';
+    data.actions.forEach(a=>{
+      const fb=document.createElement('button');fb.className='fbtn';
+      const ic=a.type==='search'?'\uD83D\uDD0D':a.type==='create'?'\uD83D\uDEE0':a.type==='analyze'?'\uD83D\uDCCA':'\u2192';
+      fb.textContent=ic+' '+a.label;
+      fb.addEventListener('click',()=>{execTask(a.prompt||'')});
+      frow.appendChild(fb);
     });
-    h+='</div>';
+    d.querySelector('.bbl-a').appendChild(frow);
   }
-  
-  h+='</div>';d.innerHTML=h;
-  document.getElementById('chatMsgs').appendChild(d);
-  scrollChat();
+
+  document.getElementById('chatMsgs').appendChild(d);scrl();
 }
 
-function showLiveStatus(phase,msg,attempt){
-  let el=document.getElementById('liveS');
-  if(!el){el=document.createElement('div');el.id='liveS';el.className='status-live';document.getElementById('chatMsgs').appendChild(el)}
-  const icons={thinking:'🧠 THINKING',planning:'📋 PLANNING',executing:'⚡ EXECUTING',processing:'⚙️ PROCESSING',retrying:'🔄 RETRYING'};
-  let h=`<div class="s-dot"></div><div><div class="s-phase">${icons[phase]||'⚡ WORKING'}</div><div class="s-msg">${esc(msg)}</div></div>`;
-  if(attempt>1) h+=`<div class="s-attempt">Plan ${attempt}/3</div>`;
-  el.innerHTML=h;scrollChat();
+function showSt(phase,msg,att){
+  let el=document.getElementById('lsv');
+  if(!el){el=document.createElement('div');el.id='lsv';el.className='slive';document.getElementById('chatMsgs').appendChild(el)}
+  const icons={thinking:'\uD83E\uDDE0 THINKING',planning:'\uD83D\uDCCB PLANNING',executing:'\u26A1 EXECUTING',processing:'\u2699\uFE0F PROCESSING',retrying:'\uD83D\uDD04 RETRYING'};
+  el.innerHTML='<div class="sd"></div><div><div class="sp">'+(icons[phase]||'\u26A1 WORKING')+'</div><div class="sm">'+escH(msg)+'</div></div>'+(att>1?'<div class="sa">Plan '+att+'/3</div>':'');
+  scrl();
 }
-
-function removeLiveStatus(){const el=document.getElementById('liveS');if(el)el.remove()}
-
-function scrollChat(){
-  const c=document.getElementById('chatMsgs');
-  requestAnimationFrame(()=>{c.scrollTop=c.scrollHeight});
-}
+function rmSt(){const el=document.getElementById('lsv');if(el)el.remove()}
+function scrl(){const c=document.getElementById('chatMsgs');requestAnimationFrame(()=>{c.scrollTop=c.scrollHeight})}
 
 // ═══════════════════════════════════════════════════════════════
-// AGENT CORE — TASK EXECUTION WITH RETRY
+// AGENT CORE ENGINE
 // ═══════════════════════════════════════════════════════════════
-function buildSysPrompt(){
+function buildSys(){
   const tops=Object.entries(profile.topics||{}).sort((a,b)=>b[1]-a[1]).slice(0,8).map(([t])=>t).join(', ');
-  const recent=history.slice(-3).map(h=>`- ${h.task} → ${h.ok?'✓':'retry'}`).join('\n')||'None';
-  const toneMap={professional:'Be sharp, direct, and efficient. No fluff.',friendly:'Be warm and conversational while still thorough.',minimal:'Be extremely concise. Bullet points over paragraphs.'};
-  
-  return `You are THESEUS, an autonomous AI agent operating as a proactive second brain on the user's device. You DON'T just answer questions — you TAKE ACTION, PLAN, and DELIVER RESULTS.
+  const recent=history.slice(-3).map(h=>'- '+h.task+' \u2192 '+(h.ok?'\u2713':'retry')).join('\n')||'None';
+  const toneMap={sharp:'Be direct, efficient, no fluff. Deliver maximum value in minimum words.',friendly:'Be warm and conversational while still thorough and actionable.',minimal:'Extremely concise. Bullet points. No filler.'};
+  return `You are THESEUS, an autonomous AI agent. You are a proactive second brain that TAKES ACTION, not just answers questions.
 
-PERSONALITY: ${toneMap[settings.tone]||toneMap.professional}
+PERSONALITY: ${toneMap[cfg.tone]||toneMap.sharp}
 
-CORE PRINCIPLES:
-- You are an AGENT, not a chatbot. You plan multi-step operations and execute them.
-- You NEVER say "I can't." You ALWAYS find workarounds, alternatives, and creative solutions.
-- If Plan A fails, switch to Plan B, C, or D immediately.
-- You are proactive — suggest follow-up actions the user might not have thought of.
-- You deliver comprehensive, actionable results.
+RULES:
+- You are an AGENT. Plan multi-step operations and deliver.
+- NEVER say "I cannot". Always find workarounds and alternatives.
+- If Plan A fails, switch to B, C, D immediately.
+- Be proactive: suggest follow-up actions the user might want.
+- For food/shopping/app queries: give specific restaurant names, ratings, prices. Be practical.
+- For market queries: give specific numbers, levels, percentages.
+- For code: give complete, working code.
 
-CAPABILITIES: Web search (real-time data, news, prices, anything), content creation (any format), code generation (any language), strategic planning, deep research, data analysis, creative work, trading analysis.
+USER PROFILE (${profile.taskCount} tasks, ${profile.successCount} successful):
+- Topics: ${tops||'learning'}
+- Level: ${profile.taskCount>50?'Power user':profile.taskCount>10?'Regular':'New'}
 
-USER PROFILE (${profile.taskCount} interactions):
-- Success rate: ${profile.taskCount?Math.round(profile.successCount/profile.taskCount*100):100}%
-- Frequent topics: ${tops||'still learning'}
-- Level: ${profile.taskCount>50?'Power user':profile.taskCount>10?'Regular':'New user'}
-
-RECENT HISTORY:\n${recent}
+RECENT:\n${recent}
 
 RESPOND IN VALID JSON ONLY:
-{"thinking":"1-2 sentence reasoning","plan":["Step 1","Step 2"],"response":"Detailed markdown response","actions":[{"type":"search|create|analyze|recommend","label":"Short label","prompt":"Full prompt if clicked"}],"status":"complete|needs_input","category":"research|creative|technical|personal|trading|general"}
-
-NO markdown fences. NO preamble. ONLY valid JSON.`;
+{"thinking":"1-2 sentence reasoning","plan":["Step 1","Step 2"],"response":"Detailed markdown response","actions":[{"type":"search|create|analyze|recommend","label":"Short label","prompt":"Full prompt"}],"status":"complete|needs_input","category":"research|creative|technical|personal|trading|general"}
+NO markdown fences. NO preamble. ONLY JSON.`;
 }
 
-function needsSearch(msg){
-  return [
-    /\b(search|find|look up|what is|who is|latest|news|price|weather|current|today|score|result|buy|shop|stock|crypto|market|nifty|sensex|banknifty|trending)\b/i,
-    /\b(how much|where can|when did|when will|is there|recommend|best|top|review|compare|happening)\b/i,
-    /\b(202[4-9]|recent|update|live|real.?time)\b/i,
-    /\?$/
-  ].some(r=>r.test(msg));
-}
+function needsWS(m){return[/\b(search|find|look up|what is|who is|latest|news|price|weather|current|today|score|result|buy|shop|stock|crypto|market|nifty|sensex|banknifty|trending|swiggy|zomato|order|restaurant|movie|show|film)\b/i,/\b(how much|where can|when did|when will|is there|recommend|best|top|review|compare|happening|deliver)\b/i,/\b(202[4-9]|recent|update|live|real.?time)\b/i,/\?$/].some(r=>r.test(m))}
 
 async function callAPI(msg){
-  const body={model:'claude-sonnet-4-20250514',max_tokens:4000,system:buildSysPrompt(),messages:[{role:'user',content:msg}]};
-  if(needsSearch(msg)) body.tools=[{type:'web_search_20250305',name:'web_search'}];
-  
-  const res=await fetch('https://api.anthropic.com/v1/messages',{
-    method:'POST',
-    headers:{'Content-Type':'application/json','x-api-key':API_KEY,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},
-    body:JSON.stringify(body)
-  });
-  if(!res.ok){const e=await res.text().catch(()=>'');throw new Error(`API ${res.status}: ${e.substring(0,200)}`);}
+  const body={model:'claude-sonnet-4-20250514',max_tokens:4000,system:buildSys(),messages:[{role:'user',content:msg}]};
+  if(needsWS(msg))body.tools=[{type:'web_search_20250305',name:'web_search'}];
+  const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':API_KEY,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-access':'true'},body:JSON.stringify(body)});
+  if(!res.ok){const e=await res.text().catch(()=>'');throw new Error('API '+res.status+': '+e.substring(0,200))}
   return await res.json();
 }
 
-async function execTask(taskText){
-  if(!taskText||!taskText.trim()||running) return;
-  taskText=taskText.trim();running=true;togSend();
-  
-  // Switch to chat view
-  showView('chat');
-  addUserBubble(taskText);
-  
-  document.getElementById('hdrSub').innerHTML='<span class="alive-dot" style="background:var(--amber)"></span> EXECUTING';
-  
-  const MAX=3;
-  let lastErr=null;
-  
+async function execTask(t){
+  if(!t||!t.trim()||running)return;t=t.trim();running=true;togSend();
+  showView('chat');addUMsg(t);
+  document.getElementById('hdrSub').innerHTML='<span class="dot" style="background:var(--amber)"></span> EXECUTING';
+  const MAX=3;let lastErr=null;
   for(let a=1;a<=MAX;a++){
     try{
-      showLiveStatus(a===1?'thinking':'retrying',a===1?'Analyzing...':` Backup plan ${a}/${MAX}...`,a);
-      await sleep(300);
-      showLiveStatus('executing',needsSearch(taskText)?'Searching web & reasoning...':'Reasoning...',a);
-      
-      const data=await callAPI(taskText);
-      showLiveStatus('processing','Processing results...',a);
-      await sleep(200);
-      
+      showSt(a===1?'thinking':'retrying',a===1?'Analyzing...':'Backup plan '+a+'/'+MAX+'...',a);
+      await slp(300);showSt('executing',needsWS(t)?'Searching web + reasoning...':'Reasoning...',a);
+      const data=await callAPI(t);showSt('processing','Processing...',a);await slp(200);
       let text=(data.content||[]).filter(b=>b.type==='text').map(b=>b.text).join('\n');
-      let parsed;
-      try{parsed=JSON.parse(text.replace(/```json|```/g,'').trim())}
-      catch{parsed={thinking:'Direct response',plan:['Executed'],response:text||'Done.',actions:[],status:'complete',category:'general'}}
-      
-      learn(taskText,parsed.response,true);
-      removeLiveStatus();
-      addAgentBubble(parsed,a);
-      
-      running=false;togSend();
-      document.getElementById('hdrSub').innerHTML='<span class="alive-dot"></span> AGENT ALIVE';
-      return;
-    }catch(err){
-      lastErr=err;console.error(`Attempt ${a}:`,err);
-      if(a<MAX){showLiveStatus('retrying',`Plan ${a} failed → engaging plan ${a+1}...`,a+1);await sleep(1500)}
-    }
+      let parsed;try{parsed=JSON.parse(text.replace(/```json|```/g,'').trim())}catch{parsed={thinking:'Direct response',plan:['Executed'],response:text||'Done.',actions:[],status:'complete',category:'general'}}
+      learn(t,parsed.response,true);rmSt();addAMsg(parsed,a);
+      running=false;togSend();document.getElementById('hdrSub').innerHTML='<span class="dot"></span> AGENT ALIVE';return;
+    }catch(err){lastErr=err;console.error('Attempt '+a+':',err);if(a<MAX){showSt('retrying','Plan '+a+' failed \u2192 engaging plan '+(a+1)+'...',a+1);await slp(1500)}}
   }
-  
-  learn(taskText,lastErr?.message,false);
-  removeLiveStatus();
-  addAgentBubble({
-    thinking:'All 3 execution plans exhausted.',
-    plan:['Tried 3 different approaches'],
-    response:`**Execution Issue**\n\n${lastErr?.message||'Unknown error'}\n\n**Quick fixes:**\n- Verify your API key at console.anthropic.com\n- Ensure you have API credits loaded\n- Check your internet connection\n- Try rephrasing the task`,
-    actions:[{type:'recommend',label:'Retry',prompt:taskText}],
-    status:'needs_input',category:'general'
-  },3);
-  
-  running=false;togSend();
-  document.getElementById('hdrSub').innerHTML='<span class="alive-dot"></span> AGENT ALIVE';
+  learn(t,lastErr?.message,false);rmSt();
+  addAMsg({thinking:'All 3 plans exhausted.',plan:['Tried 3 approaches'],response:'**Execution Issue**\n\n'+(lastErr?.message||'Unknown error')+'\n\n**Fixes:** Check API key, ensure credits, check internet, try rephrasing.',actions:[{type:'recommend',label:'Retry',prompt:t}],status:'needs_input',category:'general'},3);
+  running=false;togSend();document.getElementById('hdrSub').innerHTML='<span class="dot"></span> AGENT ALIVE';
 }
 
 function learn(task,result,ok){
   profile.taskCount++;if(ok)profile.successCount++;
   task.toLowerCase().split(/\s+/).forEach(w=>{if(w.length>3)profile.topics[w]=(profile.topics[w]||0)+1});
-  S.set('profile',profile);
+  const h=new Date().getHours();if(!profile.hours)profile.hours={};profile.hours[h]=(profile.hours[h]||0)+1;
+  const d=new Date().getDay();if(!profile.days)profile.days={};profile.days[d]=(profile.days[d]||0)+1;
+  LS.set('profile',profile);
   history.push({task,result:(result||'').substring(0,500),ok,ts:Date.now()});
   if(history.length>100)history=history.slice(-100);
-  S.set('history',history);
+  LS.set('history',history);
 }
 
 // ═══════════════════════════════════════════════════════════════
 // INPUT
 // ═══════════════════════════════════════════════════════════════
-function handleSend(){
-  const inp=document.getElementById('inp');
-  const v=inp.value.trim();if(!v||running)return;
-  inp.value='';inp.style.height='auto';
-  execTask(v);
-}
-
-function prefillInput(text){
-  const inp=document.getElementById('inp');
-  inp.value=text;inp.focus();autoGrow(inp);togSend();
-}
-
+function doSend(){const inp=document.getElementById('inp');const v=inp.value.trim();if(!v||running)return;inp.value='';inp.style.height='auto';execTask(v)}
+function prefill(t){const inp=document.getElementById('inp');inp.value=t;inp.focus();autoGrow(inp);togSend()}
 function autoGrow(el){el.style.height='auto';el.style.height=Math.min(el.scrollHeight,120)+'px'}
 function togSend(){document.getElementById('sendBtn').classList.toggle('off',!document.getElementById('inp').value.trim()||running)}
 
@@ -872,22 +785,22 @@ function renderMD(text){
   if(!text)return'';const lines=text.split('\n');let out='',inC=false,cb=[];
   for(const l of lines){
     if(l.startsWith('```')&&!inC){inC=true;cb=[];continue}
-    if(l.startsWith('```')&&inC){inC=false;out+=`<pre><code>${esc(cb.join('\n'))}</code></pre>`;continue}
+    if(l.startsWith('```')&&inC){inC=false;out+='<pre><code>'+escH(cb.join('\n'))+'</code></pre>';continue}
     if(inC){cb.push(l);continue}
-    if(l.startsWith('### '))out+=`<h3>${inl(l.slice(4))}</h3>`;
-    else if(l.startsWith('## '))out+=`<h2>${inl(l.slice(3))}</h2>`;
-    else if(l.startsWith('# '))out+=`<h1>${inl(l.slice(2))}</h1>`;
-    else if(/^[-*] /.test(l))out+=`<div class="bul">${inl(l.slice(2))}</div>`;
-    else if(/^\d+\.\s/.test(l)){const m=l.match(/^(\d+)\.\s/);out+=`<div class="bul"><span style="color:var(--cyan);font-family:var(--mono);font-size:12px;margin-right:4px">${m[1]}.</span>${inl(l.slice(m[0].length))}</div>`}
+    if(l.startsWith('### '))out+='<h3>'+inl(l.slice(4))+'</h3>';
+    else if(l.startsWith('## '))out+='<h2>'+inl(l.slice(3))+'</h2>';
+    else if(l.startsWith('# '))out+='<h1>'+inl(l.slice(2))+'</h1>';
+    else if(/^[-*] /.test(l))out+='<div class="bl">'+inl(l.slice(2))+'</div>';
+    else if(/^\d+\.\s/.test(l)){const m=l.match(/^(\d+)\.\s/);out+='<div class="bl"><span style="color:var(--cyan);font-family:var(--mono);font-size:12px;margin-right:4px">'+m[1]+'.</span>'+inl(l.slice(m[0].length))+'</div>'}
     else if(!l.trim())out+='<div style="height:7px"></div>';
-    else out+=`<p>${inl(l)}</p>`;
+    else out+='<p>'+inl(l)+'</p>';
   }
-  if(inC&&cb.length)out+=`<pre><code>${esc(cb.join('\n'))}</code></pre>`;
+  if(inC&&cb.length)out+='<pre><code>'+escH(cb.join('\n'))+'</code></pre>';
   return out;
 }
-function inl(t){t=esc(t);t=t.replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>');t=t.replace(/`(.+?)`/g,'<code>$1</code>');t=t.replace(/\[(.+?)\]\((https?:\/\/.+?)\)/g,'<a href="$2" target="_blank">$1</a>');return t}
-function esc(s){return s?s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'):''}
-function sleep(ms){return new Promise(r=>setTimeout(r,ms))}
+function inl(t){t=escH(t);t=t.replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>');t=t.replace(/`(.+?)`/g,'<code>$1</code>');t=t.replace(/\[(.+?)\]\((https?:\/\/.+?)\)/g,'<a href="$2" target="_blank">$1</a>');return t}
+function escH(s){return s?s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;'):''}
+function slp(ms){return new Promise(r=>setTimeout(r,ms))}
 </script>
 </body>
 </html>
